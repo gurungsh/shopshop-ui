@@ -1,0 +1,132 @@
+@layer components {
+  .shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+  }
+
+  .skipLink {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 10;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    transform: translateY(-200%);
+
+    &:focus {
+      transform: none;
+    }
+  }
+
+  .header {
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .headerInner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 28px;
+    align-items: center;
+    padding-block: 14px;
+  }
+
+  .logo {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-text);
+    }
+  }
+
+  .search {
+    display: flex;
+    flex: 1 1 320px;
+    gap: 8px;
+    align-items: center;
+    height: var(--control-height);
+    padding-inline: 12px;
+    border: 1px solid var(--color-border-input);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+
+    &:focus-within {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+  }
+
+  .searchIcon {
+    flex: none;
+    color: var(--color-text-muted);
+  }
+
+  .searchInput {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    font-size: 15px;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .nav {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .navLink {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    min-height: var(--touch-target);
+    padding-inline: 12px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+
+    &:hover {
+      background: var(--color-bg);
+      color: var(--color-text);
+    }
+  }
+
+  .cartLink {
+    padding-inline: 14px;
+    background: var(--color-text);
+    color: var(--color-text-on-dark);
+
+    &:hover {
+      background: var(--color-text-body);
+      color: var(--color-text-on-dark);
+    }
+  }
+
+  .main {
+    flex: 1;
+    padding-block: 32px 48px;
+  }
+
+  .footer {
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .footerInner {
+    padding-block: 20px;
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+}

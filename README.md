@@ -27,6 +27,7 @@ The app runs on http://localhost:5173.
 | `npm run preview`      | Serve the production build locally                   |
 | `npm run typecheck`    | Run the TypeScript compiler without emitting files   |
 | `npm run lint`         | Run ESLint                                           |
+| `npm run lint:css`     | Run Stylelint on the CSS                             |
 | `npm run format`       | Format every file with Prettier                      |
 | `npm run format:check` | Check formatting without changing files (used by CI) |
 

@@ -1,0 +1,39 @@
+:root {
+  /* Fonts */
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Surfaces */
+  --color-bg: #f6f6f3;
+  --color-bg-admin: #f3f3f0;
+  --color-bg-subtle: #eeeeea;
+  --color-surface: #fff;
+  --color-border: #e3e3de;
+  --color-border-input: #d6d6d0;
+  --color-border-strong: #c9c9c2;
+
+  /* Text */
+  --color-text: #15171c;
+  --color-text-body: #3b3f48;
+  --color-text-muted: #5a5f6b;
+  --color-text-on-dark: #fff;
+
+  /* Actions */
+  --color-primary: #1d4ed8;
+  --color-primary-hover: #1e3a8a;
+  --color-danger: #b42318;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
+
+  /* Sizing */
+  --control-height: 44px;
+  --touch-target: 44px;
+  --gutter: clamp(16px, 4vw, 24px);
+
+  /* Layout widths */
+  --width-store: 1200px;
+}
