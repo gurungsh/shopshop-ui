@@ -1,73 +1,47 @@
-# React + TypeScript + Vite
+# ShopShop UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The web front end for [ShopShop](https://github.com/gurungsh/shopshop): a React single-page app that talks to the ShopShop gateway.
 
-Currently, two official plugins are available:
+Built with Vite, React 19 and TypeScript (strict).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Prerequisites
 
-## React Compiler
+- Node 24 (see `.nvmrc`). With nvm: `nvm use`
+- npm 11 or later
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Getting started
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+The app runs on http://localhost:5173.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Scripts
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Script                 | What it does                                         |
+| ---------------------- | ---------------------------------------------------- |
+| `npm run dev`          | Start the dev server with hot reload                 |
+| `npm run build`        | Typecheck, then build for production into `dist/`    |
+| `npm run preview`      | Serve the production build locally                   |
+| `npm run typecheck`    | Run the TypeScript compiler without emitting files   |
+| `npm run lint`         | Run ESLint                                           |
+| `npm run format`       | Format every file with Prettier                      |
+| `npm run format:check` | Check formatting without changing files (used by CI) |
+
+## Project structure
+
+```text
+src/
+  app/          entry point and app-wide setup
+  features/     one folder per feature (catalog, cart, checkout, ...)
+  components/   shared UI components
+  api/          API client and generated types
+  lib/          pure helpers
+  config/       typed environment config
+  styles/       global CSS and design tokens
+  testing/      test helpers
 ```
+
+Folders appear as code is added. Import from `src` with the `@/` alias: `import { App } from '@/app/App'`.
