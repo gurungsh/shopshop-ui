@@ -13,7 +13,11 @@
     "moduleDetection": "force",
     "noEmit": true,
 
-    /* Linting */
+    /* Type checking */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
