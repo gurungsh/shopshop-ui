@@ -53,6 +53,7 @@ export default defineConfig([
         { type: 'styles', pattern: 'src/styles' },
         { type: 'testing', pattern: 'src/testing' },
       ],
+      'boundaries/files': [{ category: 'test', pattern: '**/*.test.{ts,tsx}' }],
     },
     rules: {
       'boundaries/dependencies': [
@@ -100,6 +101,10 @@ export default defineConfig([
             {
               from: { element: { type: 'api' } },
               allow: { to: { element: { type: ['api', 'lib', 'config'] } } },
+            },
+            {
+              from: { file: { categories: 'test' } },
+              allow: { to: { element: { type: 'testing' } } },
             },
             {
               from: { element: { type: 'testing' } },

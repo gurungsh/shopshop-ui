@@ -1,6 +1,6 @@
 import react from '@vitejs/plugin-react'
 import { msw } from 'msw/vite'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,5 +12,9 @@ export default defineConfig({
   ],
   resolve: {
     tsconfigPaths: true,
+  },
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./src/testing/setup.ts'],
   },
 })
