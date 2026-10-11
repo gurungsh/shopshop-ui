@@ -26,6 +26,11 @@
   /* Feedback */
   --color-danger-bg: #fdecec;
   --color-danger-text: #8a1c1c;
+  --color-info-bg: #e8eefc;
+  --color-info-text: #1e3a8a;
+
+  /* Elevation */
+  --shadow-popover: 0 8px 24px rgb(21 23 28 / 12%);
 
   /* Product placeholder tints */
   --tint-1: #e4eaf8;

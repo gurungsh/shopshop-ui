@@ -38,6 +38,22 @@ export default defineConfig([
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    rules: {
+      // Route loaders throw responses on purpose; React Router catches them
+      '@typescript-eslint/only-throw-error': [
+        'error',
+        {
+          allow: [
+            { from: 'lib', name: 'Response' },
+            {
+              from: 'package',
+              package: 'react-router',
+              name: 'DataWithResponseInit',
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     files: ['src/**/*.{ts,tsx}'],

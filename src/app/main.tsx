@@ -13,6 +13,7 @@ import { RouterProvider } from 'react-router/dom'
 import { Providers } from '@/app/providers'
 import { router } from '@/app/router'
 import { env } from '@/config/env'
+import { loginPath, startAuth } from '@/features/auth'
 
 /** Starts the MSW service worker before the first request, in dev only */
 async function enableMocking() {
@@ -33,6 +34,16 @@ const rootElement = document.getElementById('root')
 if (!rootElement) throw new Error('Root element #root not found in index.html')
 
 await enableMocking()
+
+startAuth({
+  onExpired: () => {
+    const { pathname, search } = router.state.location
+    void router.navigate(
+      loginPath({ returnTo: pathname + search, reason: 'expired' }),
+      { replace: true },
+    )
+  },
+})
 
 createRoot(rootElement).render(
   <StrictMode>

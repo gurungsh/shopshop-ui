@@ -1,0 +1,50 @@
+@layer components {
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 440px;
+    margin-inline: auto;
+    padding: 36px 32px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-surface);
+
+    @media (width < 480px) {
+      padding: 28px 20px;
+    }
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .title {
+    font-size: 28px;
+    letter-spacing: -0.02em;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--color-text-muted);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .submit {
+    margin-top: 4px;
+  }
+
+  .footer {
+    font-size: 15px;
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+}

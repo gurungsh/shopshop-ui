@@ -61,6 +61,11 @@
     color: var(--color-text-body);
   }
 
+  .note {
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
   .actions {
     display: flex;
     flex-wrap: wrap;

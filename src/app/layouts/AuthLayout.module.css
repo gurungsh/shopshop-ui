@@ -1,0 +1,32 @@
+@layer components {
+  .shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+  }
+
+  .header {
+    padding-block: 20px;
+  }
+
+  .logo {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-text);
+    }
+  }
+
+  .main {
+    flex: 1;
+    padding: 48px var(--gutter);
+
+    @media (width < 480px) {
+      padding-block: 24px;
+    }
+  }
+}

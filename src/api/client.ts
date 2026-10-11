@@ -10,6 +10,20 @@ interface RequestOptions {
   signal?: AbortSignal
 }
 
+interface AuthHooks {
+  getToken: () => string | null
+  onUnauthorized: () => void
+}
+
+let auth: AuthHooks = {
+  getToken: () => null,
+  onUnauthorized: () => undefined,
+}
+
+export function connectAuth(hooks: AuthHooks) {
+  auth = hooks
+}
+
 /**
  * Calls the gateway and returns the JSON response as `T`. Throws an ApiError
  * for a non-2xx response. `T` is not checked at runtime: it is a promise that
@@ -19,14 +33,19 @@ export async function apiFetch<T>(
   path: string,
   { method = 'GET', body, signal }: RequestOptions = {},
 ): Promise<T> {
+  const token = auth.getToken()
+  const headers = new Headers()
+  if (body !== undefined) headers.set('Content-Type', 'application/json')
+  if (token) headers.set('Authorization', `Bearer ${token}`)
+
   const response = await fetch(`${env.VITE_API_BASE_URL}${path}`, {
     method,
-    headers:
-      body === undefined ? undefined : { 'Content-Type': 'application/json' },
+    headers,
     body: body === undefined ? undefined : JSON.stringify(body),
     signal,
   })
 
+  if (response.status === 401 && token) auth.onUnauthorized()
   if (!response.ok) throw await toApiError(response)
   return (await response.json()) as T
 }

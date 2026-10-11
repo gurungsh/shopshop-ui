@@ -6,8 +6,16 @@
     align-items: center;
     padding: 14px 16px;
     border-radius: var(--radius-md);
+  }
+
+  .danger {
     background: var(--color-danger-bg);
     color: var(--color-danger-text);
+  }
+
+  .info {
+    background: var(--color-info-bg);
+    color: var(--color-info-text);
   }
 
   .icon {
@@ -17,6 +25,11 @@
   .text {
     flex: 1 1 240px;
     font-size: 15px;
+
+    & a {
+      font-weight: 600;
+      color: inherit;
+    }
   }
 
   .title {

@@ -1,0 +1,51 @@
+@layer components {
+  .content {
+    z-index: 20;
+    min-width: 220px;
+    max-width: calc(100vw - 32px);
+    padding: 6px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-popover);
+  }
+
+  .label {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px;
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
+  .email {
+    overflow-wrap: anywhere;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    min-height: var(--touch-target);
+    padding-inline: 10px;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    color: var(--color-text);
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+
+    &[data-highlighted] {
+      background: var(--color-bg);
+      color: var(--color-text);
+    }
+  }
+
+  .separator {
+    height: 1px;
+    margin-block: 6px;
+    background: var(--color-border);
+  }
+}

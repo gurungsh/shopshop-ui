@@ -26,3 +26,11 @@ export const WithAction: Story = {
 }
 
 export const TitleOnly: Story = { args: { children: undefined } }
+
+export const Info: Story = {
+  args: {
+    tone: 'info',
+    title: 'Your session ended.',
+    children: 'Sign in again and we’ll take you back to where you were.',
+  },
+}

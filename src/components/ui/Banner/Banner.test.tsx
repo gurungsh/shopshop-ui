@@ -31,6 +31,13 @@ describe('Banner', () => {
     ).toBeInTheDocument()
   })
 
+  it('uses a polite status for the info tone', () => {
+    render(<Banner tone="info" title="Your session ended." />)
+
+    expect(screen.getByRole('status')).toHaveTextContent('Your session ended.')
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
   it('leaves out the message when there is none', () => {
     render(<Banner title="Failed" />)
 
