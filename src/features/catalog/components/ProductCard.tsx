@@ -2,10 +2,11 @@ import { Link } from 'react-router'
 
 import type { Product } from '@/api/types/catalog'
 import { Button } from '@/components/ui/Button'
+import { ProductImage } from '@/components/ui/ProductImage'
 import { formatMoney } from '@/lib/money'
+import { selectCanAdd, useCartStore } from '@/stores/cart-store'
 
 import styles from './ProductCard.module.css'
-import { ProductImage } from './ProductImage'
 
 interface ProductCardProps {
   product: Product
@@ -13,6 +14,9 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, categoryName }: ProductCardProps) {
+  const add = useCartStore((state) => state.add)
+  const canAdd = useCartStore(selectCanAdd(product.id))
+
   return (
     <article className={styles.card}>
       <ProductImage categoryId={product.categoryId} className={styles.image} />
@@ -32,7 +36,10 @@ export function ProductCard({ product, categoryName }: ProductCardProps) {
           <span className={styles.price}>{formatMoney(product.price)}</span>
           <Button
             size="sm"
-            disabled
+            disabled={!canAdd}
+            onClick={() => {
+              add(product.id)
+            }}
             aria-label={`Add ${product.name} to cart`}
             className={styles.add}
           >

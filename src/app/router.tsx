@@ -7,6 +7,7 @@ import { NotFoundPage } from '@/app/routes/NotFoundPage'
 import { PlaceholderPage } from '@/app/routes/PlaceholderPage'
 import { RouteErrorPage } from '@/app/routes/RouteErrorPage'
 import { authRoutes, requireAdmin, requireAuth } from '@/features/auth'
+import { cartRoutes } from '@/features/cart'
 import { catalogRoutes } from '@/features/catalog'
 
 export const router = createBrowserRouter([
@@ -18,9 +19,14 @@ export const router = createBrowserRouter([
         element: <StorefrontLayout />,
         children: [
           ...catalogRoutes,
+          ...cartRoutes,
           {
             loader: requireAuth,
             children: [
+              {
+                path: 'checkout',
+                element: <PlaceholderPage title="Checkout" chunk="F4" />,
+              },
               {
                 path: 'account/orders',
                 element: <PlaceholderPage title="Your orders" chunk="F5" />,

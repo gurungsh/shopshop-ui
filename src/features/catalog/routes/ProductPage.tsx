@@ -5,12 +5,13 @@ import { Link, useParams } from 'react-router'
 import { ApiError } from '@/api/errors'
 import { Banner } from '@/components/ui/Banner'
 import { Button, buttonClass } from '@/components/ui/Button'
+import { ProductImage } from '@/components/ui/ProductImage'
 import { QuantityStepper } from '@/components/ui/QuantityStepper'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { formatMoney } from '@/lib/money'
+import { MAX_LINES, selectCanAdd, useCartStore } from '@/stores/cart-store'
 
 import { categoriesQuery, productQuery } from '../api/queries'
-import { ProductImage } from '../components/ProductImage'
 import { RelatedProducts } from '../components/RelatedProducts'
 import styles from './ProductPage.module.css'
 
@@ -24,6 +25,9 @@ function ProductView({ id }: { id: string }) {
   const product = useQuery(productQuery(id))
   const categories = useQuery(categoriesQuery())
   const [quantity, setQuantity] = useState(1)
+  const [added, setAdded] = useState(false)
+  const add = useCartStore((state) => state.add)
+  const canAdd = useCartStore(selectCanAdd(id))
 
   const isNotFound =
     (product.error instanceof ApiError && product.error.status === 404) ||
@@ -96,11 +100,31 @@ function ProductView({ id }: { id: string }) {
 
           <div className={styles.buy}>
             <QuantityStepper value={quantity} onChange={setQuantity} />
-            {/* Wired to the cart in F3 */}
-            <Button size="lg" disabled className={styles.add}>
+            <Button
+              size="lg"
+              disabled={!canAdd}
+              onClick={() => {
+                setAdded(add(item.id, quantity))
+              }}
+              className={styles.add}
+            >
               Add to cart
             </Button>
           </div>
+
+          <p role="status" className={styles.added}>
+            {added && (
+              <>
+                Added to your cart. <Link to="/cart">View cart</Link>
+              </>
+            )}
+          </p>
+          {!canAdd && (
+            <p className={styles.note}>
+              Your cart already has {MAX_LINES} different products, the most one
+              order can hold. Remove one to add this.
+            </p>
+          )}
 
           <p className={styles.note}>
             The price is confirmed by the store when you place your order.

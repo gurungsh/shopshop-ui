@@ -16,12 +16,13 @@ export const catalogHandlers = [
   http.post<never, ProductQuery, Paged<Product>>(
     apiUrl('/api/products/search'),
     async ({ request }) => {
-      const { categoryIds, name, minPrice, maxPrice, page, pageSize } =
+      const { ids, categoryIds, name, minPrice, maxPrice, page, pageSize } =
         await request.json()
 
       const matches = products
         .filter(
           (p) =>
+            (!ids?.length || ids.includes(p.id)) &&
             (!categoryIds?.length || categoryIds.includes(p.categoryId)) &&
             // Case-sensitive, like the backend's Contains on Postgres
             (!name?.trim() || p.name.includes(name)) &&

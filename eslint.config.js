@@ -11,7 +11,7 @@ import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 // Shared layers that features and the app may import
-const sharedLayers = ['components', 'api', 'lib', 'config', 'styles']
+const sharedLayers = ['components', 'stores', 'api', 'lib', 'config', 'styles']
 
 export default defineConfig([
   globalIgnores(['dist', 'storybook-static']),
@@ -64,6 +64,7 @@ export default defineConfig([
         { type: 'app', pattern: 'src/app' },
         { type: 'feature', pattern: 'src/features/*', capture: ['feature'] },
         { type: 'components', pattern: 'src/components' },
+        { type: 'stores', pattern: 'src/stores' },
         { type: 'api', pattern: 'src/api' },
         { type: 'lib', pattern: 'src/lib' },
         { type: 'config', pattern: 'src/config' },
@@ -116,6 +117,10 @@ export default defineConfig([
                   element: { type: ['components', 'lib', 'config', 'styles'] },
                 },
               },
+            },
+            {
+              from: { element: { type: 'stores' } },
+              allow: { to: { element: { type: ['stores', 'lib', 'config'] } } },
             },
             {
               from: { element: { type: 'api' } },

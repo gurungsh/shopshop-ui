@@ -10,6 +10,7 @@ interface QuantityStepperProps {
   min?: number
   max?: number
   label?: string
+  hideLabel?: boolean
   className?: string
 }
 
@@ -19,13 +20,14 @@ export function QuantityStepper({
   min = 1,
   max = 99,
   label = 'Quantity',
+  hideLabel = false,
   className,
 }: QuantityStepperProps) {
   const labelId = useId()
 
   return (
     <div className={clsx(styles.field, className)}>
-      <span id={labelId} className={styles.label}>
+      <span id={labelId} className={hideLabel ? 'sr-only' : styles.label}>
         {label}
       </span>
       <div role="group" aria-labelledby={labelId} className={styles.stepper}>

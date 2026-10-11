@@ -1,7 +1,8 @@
 import { screen, within } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 
+import { MAX_LINES, useCartStore } from '@/stores/cart-store'
 import { apiUrl } from '@/testing/mocks/http'
 import { server } from '@/testing/mocks/server'
 import { renderRoute } from '@/testing/render'
@@ -19,6 +20,10 @@ function renderProduct(id: string) {
 }
 
 describe('ProductPage', () => {
+  beforeEach(() => {
+    useCartStore.setState({ lines: [] })
+  })
+
   it('shows the product with its category, SKU and price', async () => {
     renderProduct(headphonesId)
 
@@ -75,6 +80,38 @@ describe('ProductPage', () => {
     expect(screen.getByRole('group', { name: 'Quantity' })).toHaveTextContent(
       '1',
     )
+  })
+
+  it('adds the chosen quantity to the cart', async () => {
+    const { user } = renderProduct(headphonesId)
+
+    await user.click(
+      await screen.findByRole('button', { name: 'Increase quantity' }),
+    )
+    await user.click(screen.getByRole('button', { name: 'Add to cart' }))
+
+    expect(useCartStore.getState().lines).toEqual([
+      { productId: headphonesId, quantity: 2 },
+    ])
+    expect(screen.getByRole('link', { name: 'View cart' })).toHaveAttribute(
+      'href',
+      '/cart',
+    )
+  })
+
+  it('stops adding new products when the cart is full', async () => {
+    useCartStore.setState({
+      lines: Array.from({ length: MAX_LINES }, (_, n) => ({
+        productId: String(n),
+        quantity: 1,
+      })),
+    })
+    renderProduct(headphonesId)
+
+    expect(
+      await screen.findByRole('button', { name: 'Add to cart' }),
+    ).toBeDisabled()
+    expect(screen.getByText(/the most one order can hold/)).toBeInTheDocument()
   })
 
   it('shows the not-found state for an unknown id', async () => {

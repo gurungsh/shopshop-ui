@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router'
 
 import type { Product } from '@/api/types/catalog'
+import { ProductImage } from '@/components/ui/ProductImage'
 import { formatMoney } from '@/lib/money'
 
 import { productListQuery } from '../api/queries'
-import { ProductImage } from './ProductImage'
 import styles from './RelatedProducts.module.css'
 
 const SHOWN = 3

@@ -1,8 +1,8 @@
 import { clsx } from 'clsx'
-import { ShoppingCart } from 'lucide-react'
 import { Link, Outlet, ScrollRestoration } from 'react-router'
 
 import { AccountMenu } from '@/features/auth'
+import { CartLink } from '@/features/cart'
 import { HeaderSearch } from '@/features/catalog'
 
 import styles from './StorefrontLayout.module.css'
@@ -24,10 +24,7 @@ export function StorefrontLayout() {
 
           <nav aria-label="Account" className={styles.nav}>
             <AccountMenu className={styles.navLink} />
-            <Link to="/cart" className={clsx(styles.navLink, styles.cartLink)}>
-              <ShoppingCart size={20} aria-hidden="true" />
-              Cart
-            </Link>
+            <CartLink className={clsx(styles.navLink, styles.cartLink)} />
           </nav>
         </div>
       </header>

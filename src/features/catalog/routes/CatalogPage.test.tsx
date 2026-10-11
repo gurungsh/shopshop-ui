@@ -1,7 +1,8 @@
 import { screen, within } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 
+import { useCartStore } from '@/stores/cart-store'
 import { server } from '@/testing/mocks/server'
 import { apiUrl } from '@/testing/mocks/http'
 import { renderRoute } from '@/testing/render'
@@ -15,6 +16,24 @@ function productNames() {
 }
 
 describe('CatalogPage', () => {
+  beforeEach(() => {
+    useCartStore.setState({ lines: [] })
+  })
+
+  it('adds a product to the cart from its card', async () => {
+    const { user } = renderRoute(<CatalogPage />)
+
+    const add = await screen.findByRole('button', {
+      name: 'Add Over-ear Wireless Headphones to cart',
+    })
+    await user.click(add)
+    await user.click(add)
+
+    expect(useCartStore.getState().lines).toEqual([
+      { productId: 'a0000000-0000-4000-8000-000000000001', quantity: 2 },
+    ])
+  })
+
   it('shows the first page of products and the count', async () => {
     renderRoute(<CatalogPage />)
 
