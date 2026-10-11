@@ -1,12 +1,12 @@
 import { clsx } from 'clsx'
-import { Search, ShoppingCart, UserRound } from 'lucide-react'
-import { Form, Link, Outlet, useSearchParams } from 'react-router'
+import { ShoppingCart, UserRound } from 'lucide-react'
+import { Link, Outlet, ScrollRestoration } from 'react-router'
+
+import { HeaderSearch } from '@/features/catalog'
 
 import styles from './StorefrontLayout.module.css'
 
 export function StorefrontLayout() {
-  const [searchParams] = useSearchParams()
-
   return (
     <div className={styles.shell}>
       <a href="#main" className={styles.skipLink}>
@@ -19,24 +19,7 @@ export function StorefrontLayout() {
             ShopShop
           </Link>
 
-          <Form action="/" role="search" className={styles.search}>
-            <Search
-              size={18}
-              aria-hidden="true"
-              className={styles.searchIcon}
-            />
-            <label htmlFor="q" className="sr-only">
-              Search products
-            </label>
-            <input
-              id="q"
-              name="q"
-              type="search"
-              placeholder="Search products"
-              defaultValue={searchParams.get('q') ?? ''}
-              className={styles.searchInput}
-            />
-          </Form>
+          <HeaderSearch />
 
           <nav aria-label="Account" className={styles.nav}>
             <Link to="/account/orders" className={styles.navLink}>
@@ -58,6 +41,8 @@ export function StorefrontLayout() {
       <footer className={styles.footer}>
         <div className={clsx('container', styles.footerInner)}>ShopShop</div>
       </footer>
+
+      <ScrollRestoration />
     </div>
   )
 }

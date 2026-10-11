@@ -1,0 +1,29 @@
+@layer components {
+  .image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--tint-1);
+    color: var(--color-text-muted);
+
+    &[data-tint='2'] {
+      background: var(--tint-2);
+    }
+
+    &[data-tint='3'] {
+      background: var(--tint-3);
+    }
+
+    &[data-tint='4'] {
+      background: var(--tint-4);
+    }
+
+    &[data-tint='5'] {
+      background: var(--tint-5);
+    }
+
+    &[data-tint='6'] {
+      background: var(--tint-6);
+    }
+  }
+}

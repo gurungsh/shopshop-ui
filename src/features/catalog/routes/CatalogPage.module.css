@@ -1,0 +1,81 @@
+@layer components {
+  .heading {
+    margin-bottom: 24px;
+  }
+
+  .title {
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .count {
+    min-height: 1.5em;
+    margin-top: 6px;
+    font-size: 15px;
+    color: var(--color-text-muted);
+  }
+
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  .filters {
+    display: flex;
+    flex: 1 1 220px;
+    flex-direction: column;
+    gap: 28px;
+    max-width: 100%;
+  }
+
+  .results {
+    display: flex;
+    flex: 999 1 560px;
+    flex-direction: column;
+    gap: 28px;
+    min-width: 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 20px;
+    padding: 0;
+    list-style: none;
+    transition: opacity 0.15s;
+
+    & > li {
+      display: flex;
+      flex-direction: column;
+
+      & > * {
+        flex: 1;
+      }
+    }
+
+    &[data-stale='true'] {
+      opacity: 0.6;
+    }
+  }
+
+  .cardSkeleton {
+    height: 300px;
+    border-radius: 10px;
+  }
+
+  .empty {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    padding: 48px;
+    border: 1px dashed var(--color-border-input);
+    border-radius: 10px;
+    background: var(--color-surface);
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+}
