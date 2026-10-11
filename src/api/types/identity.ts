@@ -15,3 +15,6 @@ export interface AuthResponse {
   role: Role
   token: string
 }
+
+// UserResponse, returned by GET and PUT /api/users/me
+export type User = Omit<AuthResponse, 'token'>

@@ -41,5 +41,17 @@ export const registerSchema = z
     path: ['confirmPassword'],
   })
 
+export const profileSchema = z
+  .object({
+    email,
+    password: newPassword,
+    confirmPassword: z.string().min(1, 'Confirm your password.'),
+  })
+  .refine((values) => values.password === values.confirmPassword, {
+    error: "Passwords don't match.",
+    path: ['confirmPassword'],
+  })
+
 export type LoginValues = z.infer<typeof loginSchema>
 export type RegisterValues = z.infer<typeof registerSchema>
+export type ProfileValues = z.infer<typeof profileSchema>

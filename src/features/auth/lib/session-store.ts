@@ -13,6 +13,7 @@ export interface Session {
 
 interface AuthState {
   session: Session | null
+  updateUser: (user: Session['user']) => void
   start: (response: AuthResponse) => void
   clear: () => void
 }
@@ -23,6 +24,11 @@ export const useAuthStore = create<AuthState>()(
       session: null,
       start: ({ token, ...user }) => {
         set({ session: { user, token, expiresAt: tokenExpiry(token) } })
+      },
+      updateUser: (user) => {
+        set((state) =>
+          state.session ? { session: { ...state.session, user } } : state,
+        )
       },
       clear: () => {
         set({ session: null })

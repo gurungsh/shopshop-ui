@@ -3,7 +3,7 @@ import { delay, http, HttpResponse } from 'msw'
 import type { AuthResponse, Credentials } from '@/api/types/identity'
 
 import { type MockUser, users } from '../data/identity'
-import { apiUrl, errorResponse } from '../http'
+import { apiUrl, errorResponse, userIdFrom } from '../http'
 
 function base64Url(value: object): string {
   return btoa(JSON.stringify(value))
@@ -69,4 +69,36 @@ export const identityHandlers = [
       return HttpResponse.json(authResponse(user))
     },
   ),
+
+  http.get(apiUrl('/api/users/me'), async ({ request }) => {
+    await delay()
+    const user = users.find((u) => u.id === userIdFrom(request))
+    if (!user) return new HttpResponse(null, { status: 401 })
+    return HttpResponse.json({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    })
+  }),
+
+  http.put<never, Credentials>(apiUrl('/api/users/me'), async ({ request }) => {
+    const { email, password } = await request.json()
+    await delay()
+
+    const user = users.find((u) => u.id === userIdFrom(request))
+    if (!user) return new HttpResponse(null, { status: 401 })
+
+    const normalized = normalize(email)
+    if (users.some((u) => u.id !== user.id && u.email === normalized)) {
+      return errorResponse(409, 'User with this email already exists.')
+    }
+
+    user.email = normalized
+    user.password = password
+    return HttpResponse.json({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    })
+  }),
 ]
