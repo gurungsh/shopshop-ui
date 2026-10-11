@@ -1,9 +1,8 @@
 import { createContext, useContext } from 'react'
 
-export type PaymentMethodResult =
-  { paymentMethodId: string } | { error: string }
+type PaymentMethodResult = { paymentMethodId: string } | { error: string }
 
-export interface TestMethodChoice {
+interface TestMethodChoice {
   value: string
   onChange: (value: string) => void
 }

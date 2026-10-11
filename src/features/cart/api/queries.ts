@@ -5,7 +5,7 @@ import type { Product } from '@/api/types/catalog'
 import type { Paged } from '@/api/types/paged'
 import { MAX_LINES } from '@/stores/cart-store'
 
-export const cartKeys = {
+const cartKeys = {
   all: ['cart'] as const,
   products: (ids: string[]) => [...cartKeys.all, 'products', ids] as const,
 }

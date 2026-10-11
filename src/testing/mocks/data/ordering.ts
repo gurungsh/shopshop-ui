@@ -20,7 +20,7 @@ export interface MockOrder {
 export const orderId = (n: number) =>
   `e${String(n).padStart(7, '0')}-0000-4000-8000-${String(n).padStart(12, '0')}`
 
-export function orderItem(productIndex: number, quantity: number): OrderItem {
+function orderItem(productIndex: number, quantity: number): OrderItem {
   const product = products[productIndex]
   if (!product) throw new Error(`No mock product at ${String(productIndex)}`)
   return {

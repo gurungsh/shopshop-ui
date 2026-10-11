@@ -2,7 +2,7 @@ import type { OrderQuery, OrderStatus } from '@/api/types/ordering'
 
 import { ongoingStatuses, pastStatuses } from './status'
 
-export const PAGE_SIZE = 10
+const PAGE_SIZE = 10
 
 export const orderTabs = ['all', 'ongoing', 'past'] as const
 export type OrderTab = (typeof orderTabs)[number]

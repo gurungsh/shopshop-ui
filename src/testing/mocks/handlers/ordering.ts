@@ -60,11 +60,13 @@ function settlePayment(mock: MockOrder) {
   if (Date.now() - mock.attemptStartedAt < PAYMENT_DELAY_MS) return
 
   const failure = paymentOutcome(mock.paymentMethodId)
-  order.status = !failure
-    ? 'Confirmed'
-    : retriesRemaining(mock) > 0
-      ? 'PaymentFailed'
-      : 'Failed'
+  if (!failure) {
+    order.status = 'Confirmed'
+  } else if (retriesRemaining(mock) > 0) {
+    order.status = 'PaymentFailed'
+  } else {
+    order.status = 'Failed'
+  }
   order.paymentFailureReason = failure
   order.updatedAtUtc = new Date().toISOString()
   saveOrders()

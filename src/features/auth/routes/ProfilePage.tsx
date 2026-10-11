@@ -14,35 +14,42 @@ import { type ProfileValues, profileSchema } from '../lib/schemas'
 import styles from './ProfilePage.module.css'
 
 export function ProfilePage() {
-  const { data: user, isError, refetch } = useQuery(profileQuery)
-
   return (
     <div className={styles.page}>
-      <title>Profile . ShopShop </title>
+      <title>Profile · ShopShop</title>
       <h1 className={styles.title}>Profile</h1>
-
-      {user ? (
-        <ProfileForm user={user} />
-      ) : isError ? (
-        <Banner
-          title="We couldn't load your profile."
-          action={
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => {
-                void refetch()
-              }}
-            >
-              Try again
-            </Button>
-          }
-        />
-      ) : (
-        <Skeleton className={styles.skeleton} />
-      )}
+      <ProfileContent />
     </div>
   )
+}
+
+function ProfileContent() {
+  const { data: user, isError, refetch } = useQuery(profileQuery)
+
+  if (user) {
+    return <ProfileForm user={user} />
+  }
+
+  if (isError) {
+    return (
+      <Banner
+        title="We couldn't load your profile."
+        action={
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => {
+              void refetch()
+            }}
+          >
+            Try again
+          </Button>
+        }
+      />
+    )
+  }
+
+  return <Skeleton className={styles.skeleton} />
 }
 
 function ProfileForm({ user }: { user: User }) {
@@ -96,22 +103,26 @@ function ProfileForm({ user }: { user: User }) {
         autoComplete="email"
         error={errors.email?.message}
         {...register('email')}
-      ></TextField>
+      />
       <TextField
         label="Password"
         type="password"
         autoComplete="new-password"
-        hint="Enter your curren password to keep it, or a new one to change it. At leaset 8 characters, with an uppercase letter, a lowercase letter, a number and a special character."
+        hint={
+          'Enter your current password to keep it, or a new one to change it. ' +
+          'At least 8 characters, with an uppercase letter, a lowercase letter, ' +
+          'a number and a special character.'
+        }
         error={errors.password?.message}
         {...register('password')}
-      ></TextField>
+      />
       <TextField
         label="Confirm password"
         type="password"
         autoComplete="new-password"
         error={errors.confirmPassword?.message}
         {...register('confirmPassword')}
-      ></TextField>
+      />
       <Button type="submit" disabled={update.isPending}>
         {update.isPending ? 'Saving...' : 'Save changes'}
       </Button>
