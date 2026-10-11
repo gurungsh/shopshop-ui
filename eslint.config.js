@@ -6,6 +6,7 @@ import boundaries from 'eslint-plugin-boundaries'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+import storybook from 'eslint-plugin-storybook'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
@@ -13,7 +14,7 @@ import tseslint from 'typescript-eslint'
 const sharedLayers = ['components', 'api', 'lib', 'config', 'styles']
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'storybook-static']),
 
   {
     files: ['**/*.{js,ts,tsx}'],
@@ -53,7 +54,9 @@ export default defineConfig([
         { type: 'styles', pattern: 'src/styles' },
         { type: 'testing', pattern: 'src/testing' },
       ],
-      'boundaries/files': [{ category: 'test', pattern: '**/*.test.{ts,tsx}' }],
+      'boundaries/files': [
+        { category: 'test', pattern: '**/*.{test,stories}.{ts,tsx}' },
+      ],
     },
     rules: {
       'boundaries/dependencies': [
@@ -121,5 +124,7 @@ export default defineConfig([
       ],
     },
   },
+  storybook.configs['flat/recommended'],
+
   prettier,
 ])

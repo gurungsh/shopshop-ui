@@ -20,18 +20,20 @@ The app runs on http://localhost:5173.
 
 ## Scripts
 
-| Script                 | What it does                                         |
-| ---------------------- | ---------------------------------------------------- |
-| `npm run dev`          | Start the dev server with hot reload                 |
-| `npm run build`        | Typecheck, then build for production into `dist/`    |
-| `npm run preview`      | Serve the production build locally                   |
-| `npm run typecheck`    | Run the TypeScript compiler without emitting files   |
-| `npm run lint`         | Run ESLint                                           |
-| `npm run lint:css`     | Run Stylelint on the CSS                             |
-| `npm run format`       | Format every file with Prettier                      |
-| `npm test`             | Run the tests once (Vitest)                          |
-| `npm run test:watch`   | Run the tests in watch mode while you work           |
-| `npm run format:check` | Check formatting without changing files (used by CI) |
+| Script                    | What it does                                         |
+| ------------------------- | ---------------------------------------------------- |
+| `npm run dev`             | Start the dev server with hot reload                 |
+| `npm run build`           | Typecheck, then build for production into `dist/`    |
+| `npm run preview`         | Serve the production build locally                   |
+| `npm run typecheck`       | Run the TypeScript compiler without emitting files   |
+| `npm run lint`            | Run ESLint                                           |
+| `npm run lint:css`        | Run Stylelint on the CSS                             |
+| `npm run format`          | Format every file with Prettier                      |
+| `npm test`                | Run the tests once (Vitest)                          |
+| `npm run test:watch`      | Run the tests in watch mode while you work           |
+| `npm run storybook`       | Browse the UI components and pages in Storybook      |
+| `npm run build-storybook` | Build a static Storybook into `storybook-static/`    |
+| `npm run format:check`    | Check formatting without changing files (used by CI) |
 
 ## Mock API
 
