@@ -55,4 +55,25 @@
       color: var(--color-text);
     }
   }
+
+  .danger {
+    background: var(--color-danger);
+    color: var(--color-text-on-dark);
+
+    &:hover:not(:disabled) {
+      background: var(--color-danger-text);
+      color: var(--color-text-on-dark);
+    }
+  }
+
+  .dangerOutline {
+    border-color: var(--color-danger);
+    background: var(--color-surface);
+    color: var(--color-danger);
+
+    &:hover:not(:disabled) {
+      background: var(--color-danger-bg);
+      color: var(--color-danger-text);
+    }
+  }
 }

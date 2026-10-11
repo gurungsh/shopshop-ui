@@ -16,4 +16,11 @@ export const orderRoutes: RouteObject[] = [
       return { Component: OrdersPage }
     },
   },
+  {
+    path: 'account/orders/:id',
+    lazy: async () => {
+      const { OrderDetailPage } = await import('./OrderDetailPage')
+      return { Component: OrderDetailPage }
+    },
+  },
 ]

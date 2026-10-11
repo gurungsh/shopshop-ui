@@ -1,0 +1,42 @@
+@layer components {
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: rgb(21 23 28 / 45%);
+  }
+
+  .content {
+    position: fixed;
+    top: 20vh;
+    left: 50%;
+    z-index: 31;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: min(440px, calc(100vw - 32px));
+    padding: 28px;
+    border-radius: var(--radius-xl);
+    background: var(--color-surface);
+    box-shadow: 0 20px 50px rgb(0 0 0 / 20%);
+    translate: -50% 0;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .description {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-text-body);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+}

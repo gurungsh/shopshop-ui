@@ -16,7 +16,8 @@ import styles from './RetryPayment.module.css'
 
 interface RetryPaymentProps {
   order: OrderDetail
-  onRetried: () => void
+  /** Called just before the retry is sent */
+  onRetried?: () => void
 }
 
 export function RetryPayment({ order, onRetried }: RetryPaymentProps) {
@@ -56,7 +57,7 @@ function RetryForm({ order, onRetried }: RetryPaymentProps) {
         return
       }
       // Before the response, so the new Pending order gets a full polling window
-      onRetried()
+      onRetried?.()
       await retry.mutateAsync({ paymentMethodId: method.paymentMethodId })
     } catch {
       // retry.error holds the failure and the banner shows it

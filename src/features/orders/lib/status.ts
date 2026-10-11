@@ -6,7 +6,7 @@ export const statusLabels: Record<OrderStatus, string> = {
   Processing: 'Processing',
   Shipped: 'Shipped',
   Delivered: 'Delivered',
-  Cancelled: 'Cancelled',
+  Cancelled: 'Canceled',
   Refunded: 'Refunded',
   Failed: 'Failed',
   PaymentFailed: 'Payment failed',
@@ -35,3 +35,16 @@ export const cancellableStatuses: OrderStatus[] = [
   'Processing',
   'PaymentFailed',
 ]
+
+export const trackerSteps: OrderStatus[] = [
+  'Pending',
+  'Confirmed',
+  'Processing',
+  'Shipped',
+  'Delivered',
+]
+
+/** The happy path. PaymentFailed sits on the first step (G19) */
+export function hasTracker(status: OrderStatus): boolean {
+  return status === 'PaymentFailed' || trackerSteps.includes(status)
+}

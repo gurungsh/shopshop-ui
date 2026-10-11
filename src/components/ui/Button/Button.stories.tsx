@@ -31,3 +31,11 @@ export const AsLink: Story = {
     </a>
   ),
 }
+
+export const Danger: Story = {
+  args: { variant: 'danger', children: 'Cancel order' },
+}
+
+export const DangerOutline: Story = {
+  args: { variant: 'dangerOutline', children: 'Cancel order' },
+}

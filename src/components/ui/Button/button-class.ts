@@ -3,7 +3,7 @@ import { clsx } from 'clsx'
 import styles from './Button.module.css'
 
 export interface ButtonStyleProps {
-  variant?: 'primary' | 'secondary'
+  variant?: 'primary' | 'secondary' | 'danger' | 'dangerOutline'
   size?: 'sm' | 'md' | 'lg'
   className?: string
 }

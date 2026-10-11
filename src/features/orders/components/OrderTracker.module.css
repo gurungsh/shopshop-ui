@@ -1,0 +1,76 @@
+@layer components {
+  .tracker {
+    container-type: inline-size;
+    padding: 24px 28px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .bar {
+    height: 6px;
+    border-radius: 99px;
+    background: var(--color-border);
+  }
+
+  .label {
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
+  @container (width < 520px) {
+    .steps {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .step {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .bar {
+      flex: none;
+      width: 32px;
+    }
+  }
+
+  .step:is([data-state='done'], [data-state='current']) {
+    & .bar {
+      background: var(--color-primary);
+    }
+
+    & .label {
+      color: var(--color-text);
+    }
+  }
+
+  .step[data-state='current'] .label {
+    font-weight: 700;
+  }
+
+  .step[data-state='failed'] {
+    & .bar {
+      background: var(--status-payment-failed-dot);
+    }
+
+    & .label {
+      font-weight: 700;
+      color: var(--status-payment-failed-text);
+    }
+  }
+}

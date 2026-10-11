@@ -9,9 +9,9 @@ import type { OrderDetail, OrderStatus } from '@/api/types/ordering'
 import { Banner } from '@/components/ui/Banner'
 import { Button, buttonClass } from '@/components/ui/Button'
 import { Skeleton } from '@/components/ui/Skeleton'
-import { formatMoney } from '@/lib/money'
 
 import { orderQuery } from '../api/queries'
+import { OrderItemsCard, ShippingAddressCard } from '../components/OrderCards'
 import { OrderStatusBadge } from '../components/OrderStatusBadge'
 import { RetryPayment } from '../components/RetryPayment'
 import { orderNumber } from '../lib/order-number'
@@ -66,7 +66,7 @@ const copy: Record<Outcome, { title: string; lede: string }> = {
     lede: 'Every payment attempt failed, so the order was closed.',
   },
   cancelled: {
-    title: 'This order was cancelled',
+    title: 'This order was canceled',
     lede: 'It won’t be charged or shipped.',
   },
   refunded: {
@@ -237,35 +237,8 @@ function OrderOutcome({
         </Banner>
       )}
 
-      <section aria-labelledby="items-heading" className={styles.card}>
-        <h2 id="items-heading" className={styles.cardTitle}>
-          Items
-        </h2>
-        <ul className={styles.items}>
-          {order.items.map((item) => (
-            <li key={item.id} className={styles.item}>
-              <span className={styles.itemName}>
-                {item.productName}
-                <span className={styles.muted}>
-                  {item.quantity} × {formatMoney(item.unitPrice)}
-                </span>
-              </span>
-              <span>{formatMoney(item.totalPrice)}</span>
-            </li>
-          ))}
-        </ul>
-        <div className={styles.total}>
-          <span>Total</span>
-          <span>{formatMoney(order.totalAmount)}</span>
-        </div>
-      </section>
-
-      <section aria-labelledby="shipping-heading" className={styles.card}>
-        <h2 id="shipping-heading" className={styles.cardTitle}>
-          Shipping to
-        </h2>
-        <p className={styles.address}>{order.shippingAddress}</p>
-      </section>
+      <OrderItemsCard order={order} />
+      <ShippingAddressCard order={order} />
 
       <div className={styles.actions}>
         <Link to="/account/orders" className={buttonClass({ size: 'lg' })}>

@@ -4,6 +4,7 @@ import type {
   CreateOrderRequest,
   OrderDetail,
   OrderQuery,
+  OrderStatus,
   OrderSummary,
   RetryPaymentRequest,
 } from '@/api/types/ordering'
@@ -39,6 +40,14 @@ function paymentOutcome(paymentMethodId: string): string | null {
   // Stripe rejects unknown test ids, which Payment reports as the generic reason
   return paymentMethodId.startsWith('pm_card_') ? GENERIC_FAILURE : null
 }
+
+/** OrderingService.CustomerCancellableStatuses */
+const cancellable: OrderStatus[] = [
+  'Pending',
+  'Confirmed',
+  'Processing',
+  'PaymentFailed',
+]
 
 const retriesRemaining = (mock: MockOrder) =>
   Math.max(0, MAX_RETRIES - (mock.paymentAttempts - 1))
@@ -224,6 +233,29 @@ export const orderingHandlers = [
       if (!mock) return errorResponse(404, 'Order not found.')
 
       settlePayment(mock)
+      return HttpResponse.json(toResponse(mock))
+    },
+  ),
+
+  http.post<{ id: string }>(
+    apiUrl('/api/orders/:id/cancel'),
+    async ({ request, params }) => {
+      const userId = userIdFrom(request)
+      if (!userId) return new HttpResponse(null, { status: 401 })
+
+      const mock = findOrder(params.id, userId)
+      await delay()
+      if (!mock) return errorResponse(404, 'Order not found.')
+
+      settlePayment(mock)
+      if (!cancellable.includes(mock.order.status)) {
+        return errorResponse(409, 'Order can no longer be cancelled.')
+      }
+
+      mock.order.status = 'Cancelled'
+      mock.order.updatedAtUtc = new Date().toISOString()
+      saveOrders()
+
       return HttpResponse.json(toResponse(mock))
     },
   ),

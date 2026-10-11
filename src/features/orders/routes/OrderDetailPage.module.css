@@ -1,0 +1,104 @@
+@layer components {
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: var(--width-account);
+    margin-inline: auto;
+  }
+
+  .back {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    align-self: flex-start;
+    min-height: var(--touch-target);
+    font-size: 15px;
+  }
+
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .number {
+    font-family: var(--font-mono);
+    font-weight: 500;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+    font-size: 15px;
+    color: var(--color-text-muted);
+  }
+
+  .lede {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--color-text-body);
+  }
+
+  .ended {
+    padding: 16px;
+    border-radius: var(--radius-md);
+    background: var(--status-cancelled-bg);
+    color: var(--status-cancelled-text);
+    font-size: 15px;
+    line-height: 1.5;
+
+    & a {
+      font-weight: 600;
+      color: inherit;
+    }
+  }
+
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .items {
+    flex: 999 1 480px;
+    min-width: 0;
+  }
+
+  .shipping {
+    flex: 1 1 260px;
+  }
+
+  .skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .skeletonHeading {
+    height: 120px;
+    border-radius: var(--radius-lg);
+  }
+
+  .skeletonCard {
+    height: 260px;
+    border-radius: var(--radius-lg);
+  }
+}
