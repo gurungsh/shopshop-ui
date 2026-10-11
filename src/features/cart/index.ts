@@ -1,2 +1,2 @@
 export { CartLink } from './components/CartLink'
-export { cartRoutes } from './routes'
+export { cartRoutes, checkoutRoutes } from './routes'

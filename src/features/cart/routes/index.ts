@@ -9,3 +9,14 @@ export const cartRoutes: RouteObject[] = [
     },
   },
 ]
+
+/** Wrap in a route that requires a session */
+export const checkoutRoutes: RouteObject[] = [
+  {
+    path: 'checkout',
+    lazy: async () => {
+      const { CheckoutPage } = await import('./CheckoutPage')
+      return { Component: CheckoutPage }
+    },
+  },
+]

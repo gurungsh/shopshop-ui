@@ -24,3 +24,31 @@ export function paginate<T>(items: T[], page = 1, pageSize = 20): Paged<T> {
     totalPages: Math.ceil(items.length / pageSize),
   }
 }
+
+/** ASP.NET's ValidationProblem body, `{ title, errors }` */
+export function validationProblem(errors: Record<string, string[]>) {
+  return HttpResponse.json(
+    {
+      type: 'https://tools.ietf.org/html/rfc9110#section-15.5.1',
+      title: 'One or more validation errors occurred.',
+      status: 400,
+      errors,
+    },
+    { status: 400 },
+  )
+}
+
+/** The user id (`sub`) from the mock bearer token, or null without one */
+export function userIdFrom(request: Request): string | null {
+  const token = request.headers.get('Authorization')?.replace(/^Bearer /, '')
+  const payload = token?.split('.')[1]
+  if (!payload) return null
+
+  try {
+    const json = atob(payload.replaceAll('-', '+').replaceAll('_', '/'))
+    const { sub } = JSON.parse(json) as { sub?: unknown }
+    return typeof sub === 'string' ? sub : null
+  } catch {
+    return null
+  }
+}

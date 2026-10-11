@@ -39,6 +39,17 @@ The app runs on http://localhost:5173.
 
 The ShopShop gateway is not reachable from this machine, so `npm run dev` serves the API from [MSW](https://mswjs.io) mocks in `src/testing/mocks` (`VITE_API_MOCKING=true` in `.env.development`). API types in `src/api/types` are copied by hand from the backend DTOs; each file names its source. Use a normal browser: embedded browsers that block service workers fall back to the real gateway.
 
+## Payments
+
+Card details go straight from the browser to Stripe; the app only sends the resulting `pm_...` id to the API. `.env.development` sets `VITE_PAYMENT_TEST_METHODS=true`, which swaps the card form for a picker of Stripe's test payment methods (`pm_card_visa`, `pm_card_chargeDeclined`, ...), so no Stripe account is needed. To use the real Stripe card form, create `.env.development.local` (not committed):
+
+```bash
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_...
+VITE_PAYMENT_TEST_METHODS=false
+```
+
+Only the publishable key belongs in the front end. The secret key is set in the backend's Payment service. With the mock API, cards from the Stripe form always succeed; declines need a backend with the matching secret key, or the test picker.
+
 ## Project structure
 
 ```text
@@ -62,7 +73,7 @@ Folders appear as code is added. Import from `src` with the `@/` alias: `import 
 - [x] **Catalog browsing**: Browse, filter and search products, and open a product page.
 - [x] **Authentication**: Register, sign in and sign out. Protected pages send visitors to sign in and bring them back.
 - [x] **Cart**: A cart in the browser that survives reloads and is always priced from the catalog.
-- [ ] **Checkout and payment**: Enter a shipping address and a card, place the order and see the payment outcome.
+- [x] **Checkout and payment**: Enter a shipping address and a card, place the order and see the payment outcome.
 - [ ] **Customer orders**: Order history and detail: follow the status, cancel when allowed and retry a failed payment.
 - [ ] **Account profile**: See your email and role, and change your email or password.
 - [ ] **Admin orders**: Find any order, see who ordered what and move it through its statuses.

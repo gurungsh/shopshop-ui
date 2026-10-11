@@ -1,49 +1,17 @@
-import { useQuery } from '@tanstack/react-query'
-import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router'
 
 import { Banner } from '@/components/ui/Banner'
 import { Button, buttonClass } from '@/components/ui/Button'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { formatMoney } from '@/lib/money'
-import { useCartStore } from '@/stores/cart-store'
 
-import { cartProductsQuery } from '../api/queries'
 import { CartLineItem } from '../components/CartLineItem'
-import {
-  type PricedCart,
-  priceCart,
-  type UnavailableLine,
-  unavailableMessage,
-} from '../lib/price-cart'
+import { type PricedCart, unavailableMessage } from '../lib/price-cart'
+import { usePricedCart } from '../lib/use-priced-cart'
 import styles from './CartPage.module.css'
 
 export function CartPage() {
-  const lines = useCartStore((state) => state.lines)
-  const remove = useCartStore((state) => state.remove)
-  const products = useQuery(
-    cartProductsQuery(lines.map((line) => line.productId)),
-  )
-
-  const cart = useMemo(
-    () => (products.data ? priceCart(lines, products.data) : undefined),
-    [lines, products.data],
-  )
-
-  const unavailable =
-    cart && !products.isPlaceholderData ? cart.unavailable : undefined
-
-  const [removed, setRemoved] = useState<UnavailableLine[]>([])
-  const newlyRemoved = unavailable?.filter(
-    (line) => !removed.some((r) => r.productId === line.productId),
-  )
-  if (newlyRemoved?.length) setRemoved([...removed, ...newlyRemoved])
-
-  useEffect(() => {
-    if (unavailable?.length) {
-      remove(...unavailable.map((line) => line.productId))
-    }
-  }, [unavailable, remove])
+  const { cart, removed, isEmpty, isError, refetch } = usePricedCart()
 
   return (
     <>
@@ -58,18 +26,18 @@ export function CartPage() {
         />
       )}
 
-      {lines.length === 0 || cart?.lines.length === 0 ? (
+      {isEmpty ? (
         <EmptyCart />
       ) : cart ? (
         <CartContents cart={cart} />
-      ) : products.isError ? (
+      ) : isError ? (
         <Banner
           title="We couldn’t load your cart."
           action={
             <Button
               variant="secondary"
               size="sm"
-              onClick={() => void products.refetch()}
+              onClick={() => void refetch()}
             >
               Try again
             </Button>

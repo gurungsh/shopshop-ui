@@ -23,6 +23,11 @@ export async function toApiError(response: Response): Promise<ApiError> {
 function messageFrom(body: unknown): string | undefined {
   if (typeof body !== 'object' || body === null) return undefined
   if ('error' in body && typeof body.error === 'string') return body.error
+  // ValidationProblem: { title, errors: { field: [message] } }
+  if ('errors' in body && typeof body.errors === 'object' && body.errors) {
+    const first: unknown = Object.values(body.errors).flat()[0]
+    if (typeof first === 'string') return first
+  }
   if ('title' in body && typeof body.title === 'string') return body.title
   return undefined
 }

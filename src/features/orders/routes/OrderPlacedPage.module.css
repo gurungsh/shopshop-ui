@@ -1,0 +1,173 @@
+@layer components {
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 760px;
+    margin-inline: auto;
+    padding-top: 16px;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .headerText {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--color-info-bg);
+    color: var(--color-info-text);
+
+    &[data-outcome='confirmed'] {
+      background: var(--color-success-bg);
+      color: var(--color-success-text);
+    }
+
+    &[data-outcome='paymentFailed'] {
+      background: var(--color-caution-bg);
+      color: var(--color-caution-text);
+    }
+
+    &[data-outcome='failed'] {
+      background: var(--color-danger-bg);
+      color: var(--color-danger-text);
+    }
+
+    &[data-outcome='cancelled'],
+    &[data-outcome='refunded'] {
+      background: var(--color-bg-subtle);
+      color: var(--color-text-muted);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .icon:is([data-outcome='processing'], [data-outcome='slow']) .iconGlyph {
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  @keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  .title {
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .lede {
+    max-width: 56ch;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--color-text-body);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    font-size: 15px;
+    color: var(--color-text-muted);
+  }
+
+  .number {
+    font-family: var(--font-mono);
+    color: var(--color-text);
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 24px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .cardTitle {
+    font-size: 18px;
+  }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 15px;
+  }
+
+  .itemName {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .muted {
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
+  .total {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-border);
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .address {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text-body);
+    white-space: pre-line;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .skeletonHeading {
+    height: 140px;
+    border-radius: var(--radius-lg);
+  }
+
+  .skeletonCard {
+    height: 260px;
+    border-radius: var(--radius-lg);
+  }
+}

@@ -44,4 +44,23 @@ describe('apiFetch', () => {
     await expect(apiFetch('/api/ping')).rejects.toBeInstanceOf(ApiError)
     expect(onUnauthorized).toHaveBeenCalledOnce()
   })
+
+  it('reads the first message of a validation problem', async () => {
+    server.use(
+      http.get(apiUrl('/api/ping'), () =>
+        HttpResponse.json(
+          {
+            title: 'One or more validation errors occurred.',
+            errors: { ShippingAddress: ['Shipping address is required.'] },
+          },
+          { status: 400 },
+        ),
+      ),
+    )
+
+    await expect(apiFetch('/api/ping')).rejects.toMatchObject({
+      status: 400,
+      message: 'Shipping address is required.',
+    })
+  })
 })

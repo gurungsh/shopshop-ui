@@ -12,7 +12,7 @@ function base64Url(value: object): string {
     .replaceAll('=', '')
 }
 
-function fakeToken(user: MockUser): string {
+export function fakeToken(user: MockUser): string {
   const exp = Math.floor(Date.now() / 1000) + 60 * 60
   return [
     base64Url({ alg: 'none', typ: 'JWT' }),

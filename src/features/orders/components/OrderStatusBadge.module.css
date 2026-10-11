@@ -1,0 +1,48 @@
+@layer components {
+  .badge {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+
+    &[data-tone='warning'] {
+      background: var(--color-warning-bg);
+      color: var(--color-warning-text);
+    }
+
+    &[data-tone='info'] {
+      background: var(--color-info-bg);
+      color: var(--color-info-text);
+    }
+
+    &[data-tone='success'] {
+      background: var(--color-success-bg);
+      color: var(--color-success-text);
+    }
+
+    &[data-tone='caution'] {
+      background: var(--color-caution-bg);
+      color: var(--color-caution-text);
+    }
+
+    &[data-tone='danger'] {
+      background: var(--color-danger-bg);
+      color: var(--color-danger-text);
+    }
+
+    &[data-tone='neutral'] {
+      background: var(--color-bg-subtle);
+      color: var(--color-text-muted);
+    }
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentcolor;
+  }
+}

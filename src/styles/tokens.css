@@ -28,6 +28,12 @@
   --color-danger-text: #8a1c1c;
   --color-info-bg: #e8eefc;
   --color-info-text: #1e3a8a;
+  --color-success-bg: #dcefe3;
+  --color-success-text: #14532d;
+  --color-warning-bg: #fdf3dc;
+  --color-warning-text: #5c3b00;
+  --color-caution-bg: #fdebdd;
+  --color-caution-text: #8a3b00;
 
   /* Elevation */
   --shadow-popover: 0 8px 24px rgb(21 23 28 / 12%);

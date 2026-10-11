@@ -1,10 +1,10 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { type ReactNode, useState } from 'react'
-import { MemoryRouter, Route, Routes } from 'react-router'
+import { type InitialEntry, MemoryRouter, Route, Routes } from 'react-router'
 
 export interface RouterParameters {
   path?: string
-  url?: string
+  url?: InitialEntry
 }
 
 export function StoryProviders({

@@ -4,13 +4,15 @@ import { userEvent } from '@testing-library/user-event'
 import type { ReactElement } from 'react'
 import {
   createMemoryRouter,
+  type InitialEntry,
   type RouteObject,
   RouterProvider,
 } from 'react-router'
 
 interface RenderRouteOptions {
   path?: string
-  url?: string
+  /** A path, or a location with history state */
+  url?: InitialEntry
   /** Other routes the page can navigate to */
   routes?: RouteObject[]
 }

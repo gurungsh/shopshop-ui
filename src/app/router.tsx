@@ -7,8 +7,9 @@ import { NotFoundPage } from '@/app/routes/NotFoundPage'
 import { PlaceholderPage } from '@/app/routes/PlaceholderPage'
 import { RouteErrorPage } from '@/app/routes/RouteErrorPage'
 import { authRoutes, requireAdmin, requireAuth } from '@/features/auth'
-import { cartRoutes } from '@/features/cart'
+import { cartRoutes, checkoutRoutes } from '@/features/cart'
 import { catalogRoutes } from '@/features/catalog'
+import { orderRoutes } from '@/features/orders'
 
 export const router = createBrowserRouter([
   {
@@ -23,10 +24,8 @@ export const router = createBrowserRouter([
           {
             loader: requireAuth,
             children: [
-              {
-                path: 'checkout',
-                element: <PlaceholderPage title="Checkout" chunk="F4" />,
-              },
+              ...checkoutRoutes,
+              ...orderRoutes,
               {
                 path: 'account/orders',
                 element: <PlaceholderPage title="Your orders" chunk="F5" />,

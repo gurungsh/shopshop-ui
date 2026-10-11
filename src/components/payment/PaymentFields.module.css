@@ -1,0 +1,39 @@
+@layer components {
+  .testMethods {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+    padding: 16px;
+    border: 1px dashed var(--color-border-strong);
+    border-radius: var(--radius-md);
+  }
+
+  .legend {
+    padding-inline: 4px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .hint {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .option {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    align-items: center;
+    min-height: var(--touch-target);
+    font-size: 15px;
+  }
+
+  .code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-text-muted);
+    overflow-wrap: anywhere;
+  }
+}

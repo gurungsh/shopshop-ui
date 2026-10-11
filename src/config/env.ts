@@ -4,6 +4,9 @@ const envSchema = z.object({
   VITE_API_BASE_URL: z.url(),
   /** Serve the API from MSW mocks in the browser instead of the gateway */
   VITE_API_MOCKING: z.stringbool().default(false),
+  VITE_STRIPE_PUBLISHABLE_KEY: z.string().startsWith('pk_').optional(),
+  /** Pick a Stripe test payment method (pm_card_visa, ...) instead of entering a card */
+  VITE_PAYMENT_TEST_METHODS: z.stringbool().default(false),
 })
 
 const result = envSchema.safeParse(import.meta.env)
