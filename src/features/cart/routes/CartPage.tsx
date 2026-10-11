@@ -1,11 +1,13 @@
 import { Link } from 'react-router'
 
 import { Banner } from '@/components/ui/Banner'
-import { Button, buttonClass } from '@/components/ui/Button'
+import { buttonClass } from '@/components/ui/Button'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { formatMoney } from '@/lib/money'
 
 import { CartLineItem } from '../components/CartLineItem'
+import { CartLoadError } from '../components/CartLoadError'
+import { EmptyCart } from '../components/EmptyCart'
 import { type PricedCart, unavailableMessage } from '../lib/price-cart'
 import { usePricedCart } from '../lib/use-priced-cart'
 import styles from './CartPage.module.css'
@@ -26,30 +28,35 @@ export function CartPage() {
         />
       )}
 
-      {isEmpty ? (
-        <EmptyCart />
-      ) : cart ? (
-        <CartContents cart={cart} />
-      ) : isError ? (
-        <Banner
-          title="We couldn’t load your cart."
-          action={
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => void refetch()}
-            >
-              Try again
-            </Button>
-          }
-        >
-          Your items are saved. Check your connection, then try again.
-        </Banner>
-      ) : (
-        <CartSkeleton />
-      )}
+      <CartContent
+        cart={cart}
+        isEmpty={isEmpty}
+        isError={isError}
+        refetch={refetch}
+      />
     </>
   )
+}
+
+function CartContent({
+  cart,
+  isEmpty,
+  isError,
+  refetch,
+}: Omit<ReturnType<typeof usePricedCart>, 'removed'>) {
+  if (isEmpty) {
+    return <EmptyCart />
+  }
+
+  if (cart) {
+    return <CartContents cart={cart} />
+  }
+
+  if (isError) {
+    return <CartLoadError onRetry={() => void refetch()} />
+  }
+
+  return <CartSkeleton />
 }
 
 function CartContents({ cart }: { cart: PricedCart }) {
@@ -86,17 +93,6 @@ function CartContents({ cart }: { cart: PricedCart }) {
           Continue shopping
         </Link>
       </aside>
-    </div>
-  )
-}
-
-function EmptyCart() {
-  return (
-    <div className={styles.empty}>
-      <p>Your cart is empty.</p>
-      <Link to="/" className={buttonClass({ variant: 'secondary' })}>
-        Browse products
-      </Link>
     </div>
   )
 }

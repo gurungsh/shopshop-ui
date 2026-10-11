@@ -8,63 +8,6 @@
     padding-top: 16px;
   }
 
-  .header {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-  }
-
-  .headerText {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: var(--color-info-bg);
-    color: var(--color-info-text);
-
-    &[data-outcome='confirmed'] {
-      background: var(--color-success-bg);
-      color: var(--color-success-text);
-    }
-
-    &[data-outcome='paymentFailed'] {
-      background: var(--color-caution-bg);
-      color: var(--color-caution-text);
-    }
-
-    &[data-outcome='failed'] {
-      background: var(--color-danger-bg);
-      color: var(--color-danger-text);
-    }
-
-    &[data-outcome='cancelled'],
-    &[data-outcome='refunded'] {
-      background: var(--color-bg-subtle);
-      color: var(--color-text-muted);
-    }
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .icon:is([data-outcome='processing'], [data-outcome='slow']) .iconGlyph {
-      animation: spin 1s linear infinite;
-    }
-  }
-
-  @keyframes spin {
-    to {
-      rotate: 360deg;
-    }
-  }
-
   .title {
     font-size: 32px;
     line-height: 1.15;
@@ -76,26 +19,6 @@
     font-size: 16px;
     line-height: 1.55;
     color: var(--color-text-body);
-  }
-
-  .meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
-    font-size: 15px;
-    color: var(--color-text-muted);
-  }
-
-  .number {
-    font-family: var(--font-mono);
-    color: var(--color-text);
-  }
-
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
   }
 
   .skeleton {

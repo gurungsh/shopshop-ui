@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const countries = ['United States', 'Canada', 'United Kingdom'] as const
 
 /** CreateOrderRequestValidator: the joined address is at most 500 characters */
-export const MAX_ADDRESS_LENGTH = 500
+const MAX_ADDRESS_LENGTH = 500
 
 const required = (what: string) =>
   z

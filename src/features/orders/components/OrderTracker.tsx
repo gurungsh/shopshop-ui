@@ -11,14 +11,7 @@ export function OrderTracker({ status }: { status: OrderStatus }) {
     <section aria-label="Order progress" className={styles.tracker}>
       <ol className={styles.steps}>
         {steps.map((step, index) => {
-          const state =
-            index < current
-              ? 'done'
-              : index > current
-                ? 'todo'
-                : paymentFailed
-                  ? 'failed'
-                  : 'current'
+          const state = stepState(index, current, paymentFailed)
           return (
             <li
               key={step}
@@ -41,4 +34,10 @@ export function OrderTracker({ status }: { status: OrderStatus }) {
       </ol>
     </section>
   )
+}
+
+function stepState(index: number, current: number, paymentFailed: boolean) {
+  if (index < current) return 'done'
+  if (index > current) return 'todo'
+  return paymentFailed ? 'failed' : 'current'
 }
