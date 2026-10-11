@@ -9,7 +9,16 @@ export const catalogKeys = {
   products: () => [...catalogKeys.all, 'products'] as const,
   productList: (query: ProductQuery) =>
     [...catalogKeys.products(), 'list', query] as const,
+  product: (id: string) => [...catalogKeys.products(), 'detail', id] as const,
   categories: () => [...catalogKeys.all, 'categories'] as const,
+}
+
+export function productQuery(id: string) {
+  return queryOptions({
+    queryKey: catalogKeys.product(id),
+    queryFn: ({ signal }) =>
+      apiFetch<Product>(`/api/products/${encodeURIComponent(id)}`, { signal }),
+  })
 }
 
 export function productListQuery(query: ProductQuery) {

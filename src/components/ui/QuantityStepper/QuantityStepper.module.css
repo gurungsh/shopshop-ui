@@ -1,0 +1,44 @@
+@layer components {
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .label {
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
+  .stepper {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    border: 1px solid var(--color-border-input);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 100%;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+
+    &:disabled {
+      color: var(--color-border-strong);
+      cursor: not-allowed;
+    }
+  }
+
+  .value {
+    min-width: 36px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+  }
+}

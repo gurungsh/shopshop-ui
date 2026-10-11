@@ -1,0 +1,109 @@
+@layer components {
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
+  .current {
+    color: var(--color-text);
+  }
+
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    align-items: flex-start;
+  }
+
+  .image {
+    flex: 1 1 420px;
+    max-height: 520px;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-lg);
+  }
+
+  .details {
+    display: flex;
+    flex: 1 1 380px;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .titleBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .category {
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
+  .name {
+    font-size: 34px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .sku {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
+  .price {
+    font-size: 30px;
+    font-weight: 600;
+  }
+
+  .description {
+    max-width: 52ch;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-text-body);
+  }
+
+  .buy {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+    padding-top: 8px;
+  }
+
+  .add {
+    flex: 1 1 200px;
+  }
+
+  .note {
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
+  .notFound {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    max-width: 520px;
+    padding-block: 40px;
+  }
+
+  .skeletonTitle {
+    height: 40px;
+  }
+
+  .skeletonLine {
+    width: 40%;
+    height: 32px;
+  }
+
+  .skeletonText {
+    height: 96px;
+  }
+}
