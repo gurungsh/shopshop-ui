@@ -35,6 +35,35 @@
   --color-caution-bg: #fdebdd;
   --color-caution-text: #8a3b00;
 
+  /* Order status: background, text, dot */
+  --status-pending-bg: #fdf3dc;
+  --status-pending-text: #6b4500;
+  --status-pending-dot: #b7791f;
+  --status-confirmed-bg: #e3ebfd;
+  --status-confirmed-text: #1e3a8a;
+  --status-confirmed-dot: #2f5bd3;
+  --status-processing-bg: #eae7fb;
+  --status-processing-text: #3b2c8f;
+  --status-processing-dot: #6550d6;
+  --status-shipped-bg: #ddf2ef;
+  --status-shipped-text: #0f524c;
+  --status-shipped-dot: #14877c;
+  --status-delivered-bg: #e2f2e7;
+  --status-delivered-text: #14532d;
+  --status-delivered-dot: #2f8a4f;
+  --status-cancelled-bg: #eeeeea;
+  --status-cancelled-text: #3e434b;
+  --status-cancelled-dot: #7a7f88;
+  --status-refunded-bg: #f2e9fa;
+  --status-refunded-text: #5b2384;
+  --status-refunded-dot: #9157c2;
+  --status-failed-bg: #fdecec;
+  --status-failed-text: #8a1c1c;
+  --status-failed-dot: #c73a3a;
+  --status-payment-failed-bg: #fdebdd;
+  --status-payment-failed-text: #8a3b00;
+  --status-payment-failed-dot: #d9640b;
+
   /* Elevation */
   --shadow-popover: 0 8px 24px rgb(21 23 28 / 12%);
 
@@ -59,4 +88,5 @@
 
   /* Layout widths */
   --width-store: 1200px;
+  --width-account: 1000px;
 }

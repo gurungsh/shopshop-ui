@@ -16,8 +16,9 @@ export interface MockOrder {
   attemptStartedAt: number
 }
 
+// Distinct in the first 8 characters, which is the order number on screen
 export const orderId = (n: number) =>
-  `e0000000-0000-4000-8000-${String(n).padStart(12, '0')}`
+  `e${String(n).padStart(7, '0')}-0000-4000-8000-${String(n).padStart(12, '0')}`
 
 export function orderItem(productIndex: number, quantity: number): OrderItem {
   const product = products[productIndex]
@@ -32,25 +33,41 @@ export function orderItem(productIndex: number, quantity: number): OrderItem {
   }
 }
 
+interface SeedOptions {
+  paymentAttempts?: number
+  paymentFailureReason?: string | null
+  items?: OrderItem[]
+  /** Defaults to Oct n, 2026 */
+  createdAt?: string
+  updatedDaysLater?: number
+  userId?: string
+}
+
 function seed(
   n: number,
   status: OrderStatus,
-  paymentAttempts: number,
-  paymentFailureReason: string | null = null,
+  {
+    paymentAttempts = 1,
+    paymentFailureReason = null,
+    items = [orderItem(0, 1), orderItem(5, 2)],
+    createdAt = `2026-10-${String(n).padStart(2, '0')}T15:30:00Z`,
+    updatedDaysLater = 0,
+    userId = users[0]?.id ?? '',
+  }: SeedOptions = {},
 ): MockOrder {
-  const items = [orderItem(0, 1), orderItem(5, 2)]
-  const date = `2026-10-${String(n).padStart(2, '0')}T15:30:00Z`
+  const updated = new Date(createdAt)
+  updated.setUTCDate(updated.getUTCDate() + updatedDaysLater)
   return {
     order: {
       id: orderId(n),
-      userId: users[0]?.id ?? '',
+      userId,
       totalAmount: items.reduce((sum, item) => sum + item.totalPrice, 0),
       status,
       shippingAddress:
         'Alex Morgan\n221 Harbour Street\nPortland, OR 97201\nUnited States',
       items,
-      createdAtUtc: date,
-      updatedAtUtc: date,
+      createdAtUtc: createdAt,
+      updatedAtUtc: updated.toISOString(),
       paymentFailureReason,
       paymentRetriesRemaining: 0,
     },
@@ -60,11 +77,68 @@ function seed(
   }
 }
 
-// Orders for alex@example.com in each state the order placed page shows
+const september = (day: number) =>
+  `2026-09-${String(day).padStart(2, '0')}T10:00:00Z`
+
+// Orders for alex@example.com in every status, enough for two pages, and one
+// for someone else. 1 to 3 are the states the order placed page shows.
 const seeds: MockOrder[] = [
-  seed(1, 'Confirmed', 1),
-  seed(2, 'PaymentFailed', 2, 'Your card was declined.'),
-  seed(3, 'Failed', MAX_RETRIES + 1, 'Your card has insufficient funds.'),
+  seed(1, 'Confirmed'),
+  seed(2, 'PaymentFailed', {
+    paymentAttempts: 2,
+    paymentFailureReason: 'Your card was declined.',
+  }),
+  seed(3, 'Failed', {
+    paymentAttempts: MAX_RETRIES + 1,
+    paymentFailureReason: 'Your card has insufficient funds.',
+  }),
+  seed(4, 'Shipped', {
+    items: [orderItem(1, 1)],
+    createdAt: september(30),
+    updatedDaysLater: 3,
+  }),
+  seed(5, 'Processing', {
+    items: [orderItem(2, 1), orderItem(14, 1)],
+    createdAt: september(24),
+    updatedDaysLater: 2,
+  }),
+  seed(6, 'Delivered', {
+    items: [orderItem(4, 1)],
+    createdAt: september(12),
+    updatedDaysLater: 6,
+  }),
+  seed(7, 'Cancelled', {
+    items: [orderItem(3, 1), orderItem(15, 1)],
+    createdAt: september(8),
+  }),
+  seed(8, 'Refunded', {
+    items: [orderItem(7, 1)],
+    createdAt: september(5),
+    updatedDaysLater: 9,
+  }),
+  seed(9, 'Delivered', {
+    items: [orderItem(9, 1), orderItem(21, 2)],
+    createdAt: september(3),
+    updatedDaysLater: 5,
+  }),
+  seed(10, 'Delivered', {
+    items: [orderItem(10, 1)],
+    createdAt: september(1),
+    updatedDaysLater: 4,
+  }),
+  seed(11, 'Cancelled', {
+    items: [orderItem(19, 1)],
+    createdAt: '2026-08-30T10:00:00Z',
+  }),
+  seed(12, 'Delivered', {
+    items: [orderItem(8, 2)],
+    createdAt: '2026-08-03T10:00:00Z',
+    updatedDaysLater: 6,
+  }),
+  seed(13, 'Shipped', {
+    createdAt: september(20),
+    userId: users[1]?.id ?? '',
+  }),
 ]
 
 // MSW runs in the page, so new orders are kept in sessionStorage to survive
@@ -106,7 +180,7 @@ export function addMockOrder({
   Pick<MockOrder, 'paymentAttempts' | 'paymentMethodId'> &
     Pick<OrderDetail, 'id' | 'status' | 'paymentFailureReason'>
 > = {}): string {
-  const mock = seed(1, status, paymentAttempts)
+  const mock = seed(1, status, { paymentAttempts })
   const now = new Date().toISOString()
   mock.order.id = id
   mock.order.createdAtUtc = now

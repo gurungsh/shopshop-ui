@@ -9,4 +9,11 @@ export const orderRoutes: RouteObject[] = [
       return { Component: OrderPlacedPage }
     },
   },
+  {
+    path: 'account/orders',
+    lazy: async () => {
+      const { OrdersPage } = await import('./OrdersPage')
+      return { Component: OrdersPage }
+    },
+  },
 ]

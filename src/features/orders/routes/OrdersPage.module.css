@@ -1,0 +1,57 @@
+@layer components {
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: var(--width-account);
+    margin-inline: auto;
+  }
+
+  .title {
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-self: stretch;
+  }
+
+  .skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .skeletonRow {
+    height: 56px;
+    border-radius: var(--radius-md);
+  }
+
+  .empty {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    padding: 48px 24px;
+    border: 1px dashed var(--color-border-input);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    text-align: center;
+    color: var(--color-text-muted);
+
+    & a {
+      font-weight: 600;
+    }
+  }
+}

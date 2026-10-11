@@ -11,6 +11,23 @@ export type OrderStatus =
   | 'Failed'
   | 'PaymentFailed'
 
+/** OrderResponse, a row from POST /api/orders/search */
+export interface OrderSummary {
+  id: string
+  userId: string
+  totalAmount: number
+  status: OrderStatus
+  createdAtUtc: string
+  updatedAtUtc: string
+}
+
+/** OrderQuery, the body of POST /api/orders/search. Results are newest first */
+export interface OrderQuery {
+  statuses?: OrderStatus[]
+  page?: number
+  pageSize?: number
+}
+
 /** OrderItemResponse. `productName` and `unitPrice` are snapshots from order time */
 export interface OrderItem {
   id: string

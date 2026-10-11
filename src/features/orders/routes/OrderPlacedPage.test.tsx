@@ -126,7 +126,7 @@ describe('OrderPlacedPage', () => {
     expect(
       await heading('We couldn’t take payment for this order'),
     ).toBeInTheDocument()
-    expect(screen.getByText('#E0000000')).toBeInTheDocument()
+    expect(screen.getByText('#E0000003')).toBeInTheDocument()
     expect(screen.getByText(/221 Harbour Street/)).toBeInTheDocument()
   })
 

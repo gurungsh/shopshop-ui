@@ -5,37 +5,64 @@
     align-items: center;
     padding: 3px 10px;
     border-radius: 999px;
+    background: var(--badge-bg);
+    color: var(--badge-text);
     font-size: 13px;
     font-weight: 600;
+    white-space: nowrap;
 
-    &[data-tone='warning'] {
-      background: var(--color-warning-bg);
-      color: var(--color-warning-text);
+    &[data-status='Pending'] {
+      --badge-bg: var(--status-pending-bg);
+      --badge-text: var(--status-pending-text);
+      --badge-dot: var(--status-pending-dot);
     }
 
-    &[data-tone='info'] {
-      background: var(--color-info-bg);
-      color: var(--color-info-text);
+    &[data-status='Confirmed'] {
+      --badge-bg: var(--status-confirmed-bg);
+      --badge-text: var(--status-confirmed-text);
+      --badge-dot: var(--status-confirmed-dot);
     }
 
-    &[data-tone='success'] {
-      background: var(--color-success-bg);
-      color: var(--color-success-text);
+    &[data-status='Processing'] {
+      --badge-bg: var(--status-processing-bg);
+      --badge-text: var(--status-processing-text);
+      --badge-dot: var(--status-processing-dot);
     }
 
-    &[data-tone='caution'] {
-      background: var(--color-caution-bg);
-      color: var(--color-caution-text);
+    &[data-status='Shipped'] {
+      --badge-bg: var(--status-shipped-bg);
+      --badge-text: var(--status-shipped-text);
+      --badge-dot: var(--status-shipped-dot);
     }
 
-    &[data-tone='danger'] {
-      background: var(--color-danger-bg);
-      color: var(--color-danger-text);
+    &[data-status='Delivered'] {
+      --badge-bg: var(--status-delivered-bg);
+      --badge-text: var(--status-delivered-text);
+      --badge-dot: var(--status-delivered-dot);
     }
 
-    &[data-tone='neutral'] {
-      background: var(--color-bg-subtle);
-      color: var(--color-text-muted);
+    &[data-status='Cancelled'] {
+      --badge-bg: var(--status-cancelled-bg);
+      --badge-text: var(--status-cancelled-text);
+      --badge-dot: var(--status-cancelled-dot);
+    }
+
+    &[data-status='Refunded'] {
+      --badge-bg: var(--status-refunded-bg);
+      --badge-text: var(--status-refunded-text);
+      --badge-dot: var(--status-refunded-dot);
+    }
+
+    &[data-status='Failed'] {
+      --badge-bg: var(--status-failed-bg);
+      --badge-text: var(--status-failed-text);
+      --badge-dot: var(--status-failed-dot);
+    }
+
+    &[data-status='PaymentFailed'] {
+      --badge-bg: var(--status-payment-failed-bg);
+      --badge-text: var(--status-payment-failed-text);
+      --badge-dot: var(--status-payment-failed-dot);
     }
   }
 
@@ -43,6 +70,6 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: currentcolor;
+    background: var(--badge-dot);
   }
 }

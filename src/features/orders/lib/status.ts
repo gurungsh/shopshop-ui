@@ -12,17 +12,26 @@ export const statusLabels: Record<OrderStatus, string> = {
   PaymentFailed: 'Payment failed',
 }
 
-export type StatusTone =
-  'warning' | 'info' | 'success' | 'caution' | 'danger' | 'neutral'
+/** The tabs on the order history page (G18) */
+export const ongoingStatuses: OrderStatus[] = [
+  'Pending',
+  'Confirmed',
+  'Processing',
+  'Shipped',
+  'PaymentFailed',
+]
 
-export const statusTones: Record<OrderStatus, StatusTone> = {
-  Pending: 'warning',
-  Confirmed: 'info',
-  Processing: 'info',
-  Shipped: 'info',
-  Delivered: 'success',
-  Cancelled: 'neutral',
-  Refunded: 'neutral',
-  Failed: 'danger',
-  PaymentFailed: 'caution',
-}
+export const pastStatuses: OrderStatus[] = [
+  'Delivered',
+  'Cancelled',
+  'Refunded',
+  'Failed',
+]
+
+/** OrderingService.CustomerCancellableStatuses */
+export const cancellableStatuses: OrderStatus[] = [
+  'Pending',
+  'Confirmed',
+  'Processing',
+  'PaymentFailed',
+]

@@ -27,10 +27,6 @@ export const router = createBrowserRouter([
               ...checkoutRoutes,
               ...orderRoutes,
               {
-                path: 'account/orders',
-                element: <PlaceholderPage title="Your orders" chunk="F5" />,
-              },
-              {
                 path: 'account/profile',
                 element: <PlaceholderPage title="Profile" chunk="F6" />,
               },

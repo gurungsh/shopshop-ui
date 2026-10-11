@@ -3,6 +3,8 @@ import { delay, http, HttpResponse } from 'msw'
 import type {
   CreateOrderRequest,
   OrderDetail,
+  OrderQuery,
+  OrderSummary,
   RetryPaymentRequest,
 } from '@/api/types/ordering'
 
@@ -14,7 +16,13 @@ import {
   PAYMENT_DELAY_MS,
   saveOrders,
 } from '../data/ordering'
-import { apiUrl, errorResponse, userIdFrom, validationProblem } from '../http'
+import {
+  apiUrl,
+  errorResponse,
+  paginate,
+  userIdFrom,
+  validationProblem,
+} from '../http'
 
 const PAYMENT_METHOD_ID = /^pm_[A-Za-z0-9_]+$/
 const GENERIC_FAILURE = 'We couldn’t process your payment. Please try again.'
@@ -59,6 +67,11 @@ function toResponse(mock: MockOrder): OrderDetail {
     paymentRetriesRemaining:
       mock.order.status === 'PaymentFailed' ? retriesRemaining(mock) : 0,
   }
+}
+
+function toSummary({ order }: MockOrder): OrderSummary {
+  const { id, userId, totalAmount, status, createdAtUtc, updatedAtUtc } = order
+  return { id, userId, totalAmount, status, createdAtUtc, updatedAtUtc }
 }
 
 function findOrder(id: unknown, userId: string) {
@@ -162,6 +175,41 @@ export const orderingHandlers = [
         { order: toResponse(mock), skippedProductIds },
         { status: 201 },
       )
+    },
+  ),
+
+  http.post<never, OrderQuery>(
+    apiUrl('/api/orders/search'),
+    async ({ request }) => {
+      const userId = userIdFrom(request)
+      if (!userId) return new HttpResponse(null, { status: 401 })
+
+      const { statuses, page = 1, pageSize = 20 } = await request.json()
+      await delay()
+
+      const errors: Record<string, string[]> = {}
+      if (page < 1) errors.Page = ['Page must be at least 1.']
+      if (pageSize < 1 || pageSize > 100) {
+        errors.PageSize = ['Page size must be between 1 and 100.']
+      }
+      if (Object.keys(errors).length) return validationProblem(errors)
+
+      const mine = orders.filter((mock) => mock.order.userId === userId)
+      mine.forEach(settlePayment)
+
+      const matching = mine
+        .filter(
+          (mock) => !statuses?.length || statuses.includes(mock.order.status),
+        )
+        .sort(
+          (a, b) =>
+            Date.parse(b.order.createdAtUtc) -
+              Date.parse(a.order.createdAtUtc) ||
+            a.order.id.localeCompare(b.order.id),
+        )
+        .map(toSummary)
+
+      return HttpResponse.json(paginate(matching, page, pageSize))
     },
   ),
 
