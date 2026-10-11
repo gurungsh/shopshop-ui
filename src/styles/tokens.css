@@ -23,6 +23,18 @@
   --color-primary-hover: #1e3a8a;
   --color-danger: #b42318;
 
+  /* Feedback */
+  --color-danger-bg: #fdecec;
+  --color-danger-text: #8a1c1c;
+
+  /* Product placeholder tints */
+  --tint-1: #e4eaf8;
+  --tint-2: #ece8e0;
+  --tint-3: #f4e8de;
+  --tint-4: #e1eee6;
+  --tint-5: #f1e4ec;
+  --tint-6: #e8e5f5;
+
   /* Radius */
   --radius-sm: 6px;
   --radius-md: 8px;

@@ -1,0 +1,47 @@
+@layer components {
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .status {
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .page {
+    min-width: 40px;
+    height: 40px;
+    border: 1px solid var(--color-border-input);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--color-bg);
+    }
+
+    &[aria-current='page'] {
+      border-color: var(--color-text);
+      background: var(--color-text);
+      color: var(--color-text-on-dark);
+      font-weight: 600;
+    }
+  }
+
+  .gap {
+    min-width: 24px;
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+}

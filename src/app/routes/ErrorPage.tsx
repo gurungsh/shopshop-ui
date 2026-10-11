@@ -1,5 +1,6 @@
-import { clsx } from 'clsx'
 import { Link } from 'react-router'
+
+import { Button, buttonClass } from '@/components/ui/Button'
 
 import styles from './ErrorPage.module.css'
 
@@ -37,21 +38,23 @@ export function ErrorPage({
           <div className={styles.actions}>
             {retry ? (
               <>
-                <button
-                  type="button"
-                  className={clsx(styles.action, styles.primary)}
+                <Button
+                  size="lg"
                   onClick={() => {
                     window.location.reload()
                   }}
                 >
                   Try again
-                </button>
-                <Link to="/" className={clsx(styles.action, styles.secondary)}>
+                </Button>
+                <Link
+                  to="/"
+                  className={buttonClass({ variant: 'secondary', size: 'lg' })}
+                >
                   Go to the shop
                 </Link>
               </>
             ) : (
-              <Link to="/" className={clsx(styles.action, styles.primary)}>
+              <Link to="/" className={buttonClass({ size: 'lg' })}>
                 Back to the shop
               </Link>
             )}
