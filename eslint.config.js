@@ -1,4 +1,5 @@
 import js from '@eslint/js'
+import pluginQuery from '@tanstack/eslint-plugin-query'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import prettier from 'eslint-config-prettier/flat'
 import boundaries from 'eslint-plugin-boundaries'
@@ -27,6 +28,7 @@ export default defineConfig([
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
       jsxA11y.flatConfigs.recommended,
+      pluginQuery.configs['flat/recommended'],
     ],
     languageOptions: {
       globals: globals.browser,
@@ -49,6 +51,7 @@ export default defineConfig([
         { type: 'lib', pattern: 'src/lib' },
         { type: 'config', pattern: 'src/config' },
         { type: 'styles', pattern: 'src/styles' },
+        { type: 'testing', pattern: 'src/testing' },
       ],
     },
     rules: {
@@ -62,6 +65,7 @@ export default defineConfig([
               allow: {
                 to: [
                   { element: { type: 'app' } },
+                  { element: { type: 'testing' } },
                   {
                     element: { type: 'feature', fileInternalPath: 'index.ts' },
                   },
@@ -96,6 +100,12 @@ export default defineConfig([
             {
               from: { element: { type: 'api' } },
               allow: { to: { element: { type: ['api', 'lib', 'config'] } } },
+            },
+            {
+              from: { element: { type: 'testing' } },
+              allow: {
+                to: { element: { type: ['testing', 'api', 'lib', 'config'] } },
+              },
             },
             {
               from: { element: { type: ['lib', 'config', 'styles'] } },

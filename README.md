@@ -31,6 +31,10 @@ The app runs on http://localhost:5173.
 | `npm run format`       | Format every file with Prettier                      |
 | `npm run format:check` | Check formatting without changing files (used by CI) |
 
+## Mock API
+
+The ShopShop gateway is not reachable from this machine, so `npm run dev` serves the API from [MSW](https://mswjs.io) mocks in `src/testing/mocks` (`VITE_API_MOCKING=true` in `.env.development`). API types in `src/api/types` are copied by hand from the backend DTOs; each file names its source. Use a normal browser: embedded browsers that block service workers fall back to the real gateway.
+
 ## Project structure
 
 ```text
