@@ -1,0 +1,89 @@
+@layer components {
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .back {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    align-self: flex-start;
+    min-height: var(--touch-target);
+    font-size: 15px;
+  }
+
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .number {
+    font-family: var(--font-mono);
+    font-weight: 500;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .items {
+    flex: 999 1 480px;
+    min-width: 0;
+  }
+
+  .side {
+    display: flex;
+    flex: 1 1 280px;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .skeletonHeading {
+    height: 120px;
+    border-radius: var(--radius-lg);
+  }
+
+  .skeletonCard {
+    height: 260px;
+    border-radius: var(--radius-lg);
+  }
+}

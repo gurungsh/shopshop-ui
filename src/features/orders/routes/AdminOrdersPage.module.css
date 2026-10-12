@@ -1,0 +1,64 @@
+@layer components {
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .title {
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-self: stretch;
+  }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    align-items: flex-end;
+  }
+
+  .refreshNote {
+    margin-inline-start: auto;
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
+  .skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .skeletonRow {
+    height: 56px;
+    border-radius: var(--radius-md);
+  }
+
+  .empty {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    padding: 48px 24px;
+    border: 1px dashed var(--color-border-input);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+}

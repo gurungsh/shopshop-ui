@@ -70,3 +70,19 @@ export interface CreateOrderResponse {
 export interface RetryPaymentRequest {
   paymentMethodId: string
 }
+
+/** OrderQuery as POST /api/admin/orders/search reads it. The filters are ANDed */
+export interface AdminOrderQuery extends OrderQuery {
+  ids?: string[]
+  userIds?: string[]
+  minTotalAmount?: number
+  maxTotalAmount?: number
+  createdAfterUtc?: string
+  createdBeforeUtc?: string
+}
+
+/** AdminUpdateOrderRequest, the body of PUT /api/admin/orders/{id}/status. Either field may be left out */
+export interface AdminUpdateOrderRequest {
+  status?: OrderStatus
+  shippingAddress?: string
+}

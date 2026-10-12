@@ -1,5 +1,6 @@
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, Navigate } from 'react-router'
 
+import { AdminLayout } from '@/app/layouts/AdminLayout'
 import { AuthLayout } from '@/app/layouts/AuthLayout'
 import { StorefrontLayout } from '@/app/layouts/StorefrontLayout'
 import { AppLoading } from '@/app/routes/AppLoading'
@@ -14,7 +15,7 @@ import {
 } from '@/features/auth'
 import { cartRoutes, checkoutRoutes } from '@/features/cart'
 import { catalogRoutes } from '@/features/catalog'
-import { orderRoutes } from '@/features/orders'
+import { adminOrderRoutes, orderRoutes } from '@/features/orders'
 
 export const router = createBrowserRouter([
   {
@@ -38,14 +39,18 @@ export const router = createBrowserRouter([
               },
             ],
           },
-          {
-            path: 'admin',
-            loader: requireAdmin,
-            element: <PlaceholderPage title="Admin" chunk="F7" />,
-          },
         ],
       },
       { element: <AuthLayout />, children: [...authRoutes] },
+      {
+        path: 'admin',
+        loader: requireAdmin,
+        element: <AdminLayout />,
+        children: [
+          { index: true, element: <Navigate to="orders" replace /> },
+          ...adminOrderRoutes,
+        ],
+      },
     ],
   },
   { path: '*', element: <NotFoundPage /> },

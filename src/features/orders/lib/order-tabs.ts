@@ -13,7 +13,7 @@ export const tabLabels: Record<OrderTab, string> = {
   past: 'Past',
 }
 
-const tabStatuses: Record<OrderTab, OrderStatus[] | undefined> = {
+export const tabStatuses: Record<OrderTab, OrderStatus[] | undefined> = {
   all: undefined,
   ongoing: ongoingStatuses,
   past: pastStatuses,

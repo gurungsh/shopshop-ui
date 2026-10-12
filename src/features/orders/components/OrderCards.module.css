@@ -13,6 +13,13 @@
     font-size: 18px;
   }
 
+  .heading {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .items {
     display: flex;
     flex-direction: column;

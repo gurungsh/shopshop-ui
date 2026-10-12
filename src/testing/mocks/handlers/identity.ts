@@ -34,6 +34,26 @@ const normalize = (email: string) => email.trim().toLowerCase()
 
 // Mirrors Identity.Api's AuthEndpoints and AuthService
 export const identityHandlers = [
+  http.get<{ id: string }>(
+    apiUrl('/api/admin/users/:id'),
+    async ({ request, params }) => {
+      const caller = users.find((u) => u.id === userIdFrom(request))
+      if (!caller) return new HttpResponse(null, { status: 401 })
+      if (caller.role !== 'Admin') {
+        return new HttpResponse(null, { status: 403 })
+      }
+      await delay()
+
+      const user = users.find((u) => u.id === params.id)
+      if (!user) return errorResponse(404, 'User not found.')
+      return HttpResponse.json({
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      })
+    },
+  ),
+
   http.post<never, Credentials>(
     apiUrl('/api/auth/register'),
     async ({ request }) => {
