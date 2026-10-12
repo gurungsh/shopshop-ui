@@ -1,6 +1,8 @@
 export class ApiError extends Error {
   readonly status: number
   readonly correlationId: string | null
+  /** From a Retry-After header in seconds, on a 429 or 503 */
+  readonly retryAfterMs: number | null
   /** From a ValidationProblem: the messages for each property, by its name */
   readonly fieldErrors: Record<string, string[]>
 
@@ -9,12 +11,14 @@ export class ApiError extends Error {
     message: string,
     correlationId: string | null,
     fieldErrors: Record<string, string[]> = {},
+    retryAfterMs: number | null = null,
   ) {
     super(message)
     this.name = 'ApiError'
     this.status = status
     this.correlationId = correlationId
     this.fieldErrors = fieldErrors
+    this.retryAfterMs = retryAfterMs
   }
 }
 
@@ -26,7 +30,15 @@ export async function toApiError(response: Response): Promise<ApiError> {
       `Request failed with status ${String(response.status)}`,
     response.headers.get('X-Correlation-Id'),
     fieldErrorsFrom(body),
+    retryAfterFrom(response.headers.get('Retry-After')),
   )
+}
+
+function retryAfterFrom(header: string | null): number | null {
+  const seconds = Number(header)
+  return header !== null && Number.isFinite(seconds) && seconds >= 0
+    ? seconds * 1000
+    : null
 }
 
 function fieldErrorsFrom(body: unknown): Record<string, string[]> {

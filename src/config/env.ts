@@ -6,6 +6,8 @@ const envSchema = z.object({
   VITE_API_MOCKING: z.stringbool().default(false),
   VITE_STRIPE_PUBLISHABLE_KEY: z.string().startsWith('pk_').optional(),
   /** Pick a Stripe test payment method (pm_card_visa, ...) instead of entering a card */
+  /** Endpoint that receives runtime error reports; none are sent when unset */
+  VITE_ERROR_REPORT_URL: z.url().optional(),
   VITE_PAYMENT_TEST_METHODS: z.stringbool().default(false),
 })
 

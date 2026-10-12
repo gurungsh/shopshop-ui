@@ -1,3 +1,4 @@
+import { act, renderHook } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
@@ -6,6 +7,7 @@ import { server } from '@/testing/mocks/server'
 
 import { apiFetch, connectAuth } from './client'
 import { ApiError } from './errors'
+import { useServiceUnavailable } from './service-status'
 
 describe('apiFetch', () => {
   afterEach(() => {
@@ -92,5 +94,40 @@ describe('apiFetch', () => {
     ).rejects.toMatchObject({
       fieldErrors: { Sku: ['Sku is required.'], Price: ['Too low.'] },
     })
+  })
+
+  it('reads Retry-After in seconds from a rate limited response', async () => {
+    server.use(
+      http.get(
+        apiUrl('/api/ping'),
+        () =>
+          new HttpResponse(null, {
+            status: 429,
+            headers: { 'Retry-After': '3' },
+          }),
+      ),
+    )
+
+    await expect(apiFetch('/api/ping')).rejects.toMatchObject({
+      status: 429,
+      retryAfterMs: 3000,
+    })
+  })
+
+  it('tracks whether the gateway is unavailable', async () => {
+    server.use(
+      http.get(
+        apiUrl('/api/down'),
+        () => new HttpResponse(null, { status: 503 }),
+      ),
+      http.get(apiUrl('/api/up'), () => HttpResponse.json({})),
+    )
+    const { result } = renderHook(() => useServiceUnavailable())
+
+    await act(() => apiFetch('/api/down').catch(() => undefined))
+    expect(result.current).toBe(true)
+
+    await act(() => apiFetch('/api/up'))
+    expect(result.current).toBe(false)
   })
 })
