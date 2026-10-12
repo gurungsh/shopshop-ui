@@ -25,7 +25,7 @@ export const revenueStatuses: OrderStatus[] = [
   'Delivered',
 ]
 
-export const STUCK_PENDING_MS = 10 * 60 * 1000
+const STUCK_PENDING_MS = 10 * 60 * 1000
 
 export function needsAttention(orders: OrderSummary[], now = Date.now()) {
   return orders.filter(
