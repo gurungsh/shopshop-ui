@@ -10,6 +10,9 @@ export function AdminLayout() {
           ShopShop Admin
         </Link>
         <nav aria-label="Admin" className={styles.nav}>
+          <NavLink to="/admin" end className={styles.link}>
+            Dashboard
+          </NavLink>
           <NavLink to="/admin/orders" className={styles.link}>
             Orders
           </NavLink>

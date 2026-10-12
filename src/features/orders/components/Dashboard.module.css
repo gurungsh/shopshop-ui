@@ -1,0 +1,131 @@
+@layer components {
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px 24px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .cardHeading {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    justify-content: space-between;
+
+    & h2 {
+      font-size: 17px;
+    }
+  }
+
+  .note {
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    height: 100%;
+    padding: 18px 20px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .kpiLabel {
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
+  .kpiValue {
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .kpiNote {
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
+  .bars {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .bar {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr) 40px;
+    gap: 12px;
+    align-items: center;
+    min-height: 32px;
+    font-size: 14px;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .track {
+    display: block;
+    height: 14px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--color-bg-subtle);
+  }
+
+  .fill {
+    display: block;
+    height: 100%;
+    background: var(--color-primary);
+  }
+
+  .bar[data-status='PaymentFailed'] .fill {
+    background: var(--status-payment-failed-dot);
+  }
+
+  .count {
+    font-weight: 600;
+    text-align: end;
+  }
+
+  .scroller {
+    overflow-x: auto;
+  }
+
+  .attention {
+    width: 100%;
+    min-width: 440px;
+    border-collapse: collapse;
+    font-size: 14px;
+
+    & th {
+      padding: 8px;
+      font-size: 12px;
+      text-align: start;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      border-block-end: 1px solid var(--color-border);
+    }
+
+    & td {
+      padding: 10px 8px;
+      border-block-end: 1px solid var(--color-border);
+    }
+  }
+}

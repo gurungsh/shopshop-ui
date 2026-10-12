@@ -17,7 +17,7 @@ export const adminOrderKeys = {
   detail: (id: string) => [...orderKeys.all, 'admin', 'detail', id] as const,
 }
 
-function searchAdminOrders(query: AdminOrderQuery, signal: AbortSignal) {
+export function searchAdminOrders(query: AdminOrderQuery, signal: AbortSignal) {
   return apiFetch<Paged<OrderSummary>>('/api/admin/orders/search', {
     method: 'POST',
     body: query,
@@ -41,6 +41,7 @@ export function adminOrderCountQuery(
   return queryOptions({
     queryKey: [...adminOrderKeys.lists(), counted],
     queryFn: ({ signal }) => searchAdminOrders(counted, signal),
+    placeholderData: keepPreviousData,
     select: (result) => result.totalCount,
     refetchInterval: ADMIN_REFRESH_MS,
   })

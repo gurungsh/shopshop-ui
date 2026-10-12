@@ -1,0 +1,54 @@
+@layer components {
+  .page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .title {
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .refreshNote {
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
+  .recentSkeleton {
+    height: 280px;
+    border-radius: var(--radius-md);
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: stretch;
+
+    & > :first-child {
+      flex: 1 1 340px;
+    }
+
+    & > :last-child {
+      flex: 2 1 480px;
+      min-width: 0;
+    }
+  }
+}

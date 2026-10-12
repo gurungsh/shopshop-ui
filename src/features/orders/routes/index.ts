@@ -42,3 +42,13 @@ export const adminOrderRoutes: RouteObject[] = [
     },
   },
 ]
+
+export const adminDashboardRoutes: RouteObject[] = [
+  {
+    index: true,
+    lazy: async () => {
+      const { AdminDashboardPage } = await import('./AdminDashboardPage')
+      return { Component: AdminDashboardPage }
+    },
+  },
+]
