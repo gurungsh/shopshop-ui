@@ -74,9 +74,9 @@ Folders appear as code is added. Import from `src` with the `@/` alias: `import 
 - [x] **Authentication**: Register, sign in and sign out. Protected pages send visitors to sign in and bring them back.
 - [x] **Cart**: A cart in the browser that survives reloads and is always priced from the catalog.
 - [x] **Checkout and payment**: Enter a shipping address and a card, place the order and see the payment outcome.
-- [ ] **Customer orders**: Order history and detail: follow the status, cancel when allowed and retry a failed payment.
-- [ ] **Account profile**: See your email and role, and change your email or password.
-- [ ] **Admin orders**: Find any order, see who ordered what and move it through its statuses.
+- [x] **Customer orders**: Order history and detail: follow the status, cancel when allowed and retry a failed payment.
+- [x] **Account profile**: See your email and role, and change your email or password.
+- [x] **Admin orders**: Find any order, see who ordered what and move it through its statuses.
 - [x] **Admin dashboard**: A landing page for admins with an at-a-glance view of orders.
 - [x] **Admin catalog and users**: Manage products, categories and user accounts without Swagger.
 - [ ] **Hardening and release**: End-to-end tests, an accessibility pass and a container image, so the app is safe to demo and easy to run.

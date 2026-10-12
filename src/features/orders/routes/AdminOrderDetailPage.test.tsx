@@ -1,6 +1,7 @@
 import { screen, within } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
+import { formatDate } from '@/lib/date'
 import { connectTestUser } from '@/testing/auth'
 import { products } from '@/testing/mocks/data/catalog'
 import { users } from '@/testing/mocks/data/identity'
@@ -44,6 +45,30 @@ describe('AdminOrderDetailPage', () => {
     expect(screen.getByText('Order placed')).toBeInTheDocument()
     expect(
       screen.getByRole('button', { name: 'Mark as Shipped' }),
+    ).toBeInTheDocument()
+  })
+
+  it('shows when the order was placed and updated, and refreshes it after a change', async () => {
+    const id = addMockOrder({ status: 'Confirmed' })
+    const mock = orders.find((o) => o.order.id === id)
+    if (!mock) throw new Error('mock order missing')
+    mock.order.createdAtUtc = '2026-01-05T10:00:00Z'
+    mock.order.updatedAtUtc = '2026-01-06T10:00:00Z'
+    const { user } = renderDetail(id)
+
+    expect(
+      await screen.findByText(`Placed ${formatDate('2026-01-05T10:00:00Z')}`),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(`Updated ${formatDate('2026-01-06T10:00:00Z')}`),
+    ).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Mark as Processing' }))
+
+    expect(
+      await screen.findByText(
+        `Updated ${formatDate(new Date().toISOString())}`,
+      ),
     ).toBeInTheDocument()
   })
 

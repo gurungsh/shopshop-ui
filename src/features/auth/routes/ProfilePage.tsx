@@ -109,7 +109,8 @@ function ProfileForm({ user }: { user: User }) {
         type="password"
         autoComplete="new-password"
         hint={
-          'Enter your current password to keep it, or a new one to change it. ' +
+          'Saving sets your password to what you enter here, so enter a new ' +
+          'one or choose the same one again. ' +
           'At least 8 characters, with an uppercase letter, a lowercase letter, ' +
           'a number and a special character.'
         }
