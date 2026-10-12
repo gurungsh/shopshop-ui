@@ -16,6 +16,15 @@ export function AdminLayout() {
           <NavLink to="/admin/orders" className={styles.link}>
             Orders
           </NavLink>
+          <NavLink to="/admin/products" className={styles.link}>
+            Products
+          </NavLink>
+          <NavLink to="/admin/categories" className={styles.link}>
+            Categories
+          </NavLink>
+          <NavLink to="/admin/users" className={styles.link}>
+            Users
+          </NavLink>
         </nav>
         <Link to="/" className={styles.link}>
           Back to store

@@ -1,0 +1,25 @@
+@layer components {
+  .skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .row {
+    height: 56px;
+    border-radius: var(--radius-md);
+  }
+
+  .empty {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    padding: 48px 24px;
+    border: 1px dashed var(--color-border-input);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+}

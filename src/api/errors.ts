@@ -1,12 +1,20 @@
 export class ApiError extends Error {
   readonly status: number
   readonly correlationId: string | null
+  /** From a ValidationProblem: the messages for each property, by its name */
+  readonly fieldErrors: Record<string, string[]>
 
-  constructor(status: number, message: string, correlationId: string | null) {
+  constructor(
+    status: number,
+    message: string,
+    correlationId: string | null,
+    fieldErrors: Record<string, string[]> = {},
+  ) {
     super(message)
     this.name = 'ApiError'
     this.status = status
     this.correlationId = correlationId
+    this.fieldErrors = fieldErrors
   }
 }
 
@@ -17,6 +25,21 @@ export async function toApiError(response: Response): Promise<ApiError> {
     messageFrom(body) ??
       `Request failed with status ${String(response.status)}`,
     response.headers.get('X-Correlation-Id'),
+    fieldErrorsFrom(body),
+  )
+}
+
+function fieldErrorsFrom(body: unknown): Record<string, string[]> {
+  if (typeof body !== 'object' || body === null || !('errors' in body))
+    return {}
+  if (typeof body.errors !== 'object' || body.errors === null) return {}
+  return Object.fromEntries(
+    Object.entries(body.errors).map(([field, messages]) => [
+      field,
+      Array.isArray(messages)
+        ? messages.filter((m): m is string => typeof m === 'string')
+        : [],
+    ]),
   )
 }
 
@@ -30,4 +53,8 @@ function messageFrom(body: unknown): string | undefined {
   }
   if ('title' in body && typeof body.title === 'string') return body.title
   return undefined
+}
+
+export function isNotFound(error: unknown): boolean {
+  return error instanceof ApiError && error.status === 404
 }

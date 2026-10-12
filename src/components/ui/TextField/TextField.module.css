@@ -25,6 +25,13 @@
     }
   }
 
+  textarea.input {
+    height: auto;
+    padding-block: 10px;
+    font-family: inherit;
+    resize: vertical;
+  }
+
   .error {
     font-size: 14px;
     color: var(--color-danger);

@@ -18,6 +18,6 @@ export const users: MockUser[] = [
     id: 'd0000000-0000-4000-8000-000000000002',
     email: 'admin@example.com',
     role: 'Admin',
-    password: 'Admin123!',
+    password: '',
   },
 ]

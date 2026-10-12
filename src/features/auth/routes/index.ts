@@ -26,3 +26,28 @@ export const accountRoutes: RouteObject[] = [
     },
   },
 ]
+
+/** Children of the /admin route, which already requires an admin */
+export const adminUserRoutes: RouteObject[] = [
+  {
+    path: 'users',
+    lazy: async () => {
+      const { AdminUsersPage } = await import('./AdminUsersPage')
+      return { Component: AdminUsersPage }
+    },
+  },
+  {
+    path: 'users/new',
+    lazy: async () => {
+      const { AdminUserCreatePage } = await import('./AdminUserFormPages')
+      return { Component: AdminUserCreatePage }
+    },
+  },
+  {
+    path: 'users/:id',
+    lazy: async () => {
+      const { AdminUserEditPage } = await import('./AdminUserFormPages')
+      return { Component: AdminUserEditPage }
+    },
+  },
+]

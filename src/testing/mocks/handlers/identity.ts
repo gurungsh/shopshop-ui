@@ -1,9 +1,24 @@
 import { delay, http, HttpResponse } from 'msw'
 
-import type { AuthResponse, Credentials } from '@/api/types/identity'
+import type {
+  AuthResponse,
+  CreateUserRequest,
+  Credentials,
+  UpdateUserRequest,
+  UserQuery,
+  User,
+} from '@/api/types/identity'
 
 import { type MockUser, users } from '../data/identity'
-import { apiUrl, errorResponse, userIdFrom } from '../http'
+import {
+  adminOnly,
+  apiUrl,
+  errorResponse,
+  paginate,
+  pagingErrors,
+  userIdFrom,
+  validationProblem,
+} from '../http'
 
 function base64Url(value: object): string {
   return btoa(JSON.stringify(value))
@@ -32,8 +47,89 @@ function authResponse(user: MockUser): AuthResponse {
 
 const normalize = (email: string) => email.trim().toLowerCase()
 
+function toUser(user: MockUser): User {
+  return { id: user.id, email: user.email, role: user.role }
+}
+
 // Mirrors Identity.Api's AuthEndpoints and AuthService
 export const identityHandlers = [
+  http.post<never, UserQuery>(
+    apiUrl('/api/admin/users/search'),
+    async ({ request }) => {
+      const denied = adminOnly(request)
+      if (denied) return denied
+      const { email, role, page, pageSize } = await request.json()
+      await delay()
+
+      const errors = pagingErrors(page, pageSize)
+      if (Object.keys(errors).length) return validationProblem(errors)
+
+      const matches = users
+        .filter(
+          (u) =>
+            (!email || u.email === normalize(email)) &&
+            (!role || u.role === role),
+        )
+        .map(toUser)
+      return HttpResponse.json(paginate(matches, page, pageSize))
+    },
+  ),
+
+  http.post<never, CreateUserRequest>(
+    apiUrl('/api/admin/users'),
+    async ({ request }) => {
+      const denied = adminOnly(request)
+      if (denied) return denied
+      const { email, password, role } = await request.json()
+      await delay()
+
+      if (users.some((u) => u.email === normalize(email))) {
+        return errorResponse(409, 'User with this email already exists.')
+      }
+      const user: MockUser = {
+        id: crypto.randomUUID(),
+        email: normalize(email),
+        role,
+        password,
+      }
+      users.push(user)
+      return HttpResponse.json(toUser(user), { status: 201 })
+    },
+  ),
+
+  http.put<{ id: string }, UpdateUserRequest>(
+    apiUrl('/api/admin/users/:id'),
+    async ({ request, params }) => {
+      const denied = adminOnly(request)
+      if (denied) return denied
+      const { email, role } = await request.json()
+      await delay()
+
+      const user = users.find((u) => u.id === params.id)
+      if (!user) return errorResponse(404, 'User not found.')
+      if (users.some((u) => u.id !== user.id && u.email === normalize(email))) {
+        return errorResponse(409, 'User with this email already exists.')
+      }
+      user.email = normalize(email)
+      user.role = role
+      return HttpResponse.json(toUser(user))
+    },
+  ),
+
+  http.delete<{ id: string }>(
+    apiUrl('/api/admin/users/:id'),
+    async ({ request, params }) => {
+      const denied = adminOnly(request)
+      if (denied) return denied
+      await delay()
+
+      const index = users.findIndex((u) => u.id === params.id)
+      if (index === -1) return errorResponse(404, 'User not found.')
+      users.splice(index, 1)
+      return new HttpResponse(null, { status: 204 })
+    },
+  ),
+
   http.get<{ id: string }>(
     apiUrl('/api/admin/users/:id'),
     async ({ request, params }) => {

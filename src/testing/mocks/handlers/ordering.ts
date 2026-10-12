@@ -24,6 +24,7 @@ import {
   apiUrl,
   errorResponse,
   paginate,
+  pagingErrors,
   userIdFrom,
   validationProblem,
 } from '../http'
@@ -111,6 +112,24 @@ function adminDenied(request: Request) {
   if (!caller) return new HttpResponse(null, { status: 401 })
   if (caller.role !== 'Admin') return new HttpResponse(null, { status: 403 })
   return null
+}
+
+// OrderQueryValidator
+function adminQueryErrors(query: AdminOrderQuery) {
+  const errors = pagingErrors(query.page, query.pageSize)
+  const { minTotalAmount: min, maxTotalAmount: max } = query
+  if (min != null && max != null && max < min) {
+    errors.MaxTotalAmount = [
+      'MaxTotalAmount must be greater than or equal to MinTotalAmount.',
+    ]
+  }
+  const { createdAfterUtc: after, createdBeforeUtc: before } = query
+  if (after && before && Date.parse(after) > Date.parse(before)) {
+    errors.CreatedAfterUtc = [
+      'CreatedAfterUtc must be on or before CreatedBeforeUtc.',
+    ]
+  }
+  return errors
 }
 
 // ApplyGetOrdersFilters in OrderingService
@@ -201,6 +220,9 @@ export const orderingHandlers = [
       const query = await request.json()
       const { page = 1, pageSize = 20 } = query
       await delay()
+
+      const errors = adminQueryErrors(query)
+      if (Object.keys(errors).length) return validationProblem(errors)
 
       orders.forEach(settlePayment)
       const matching = orders
@@ -310,11 +332,7 @@ export const orderingHandlers = [
       const { statuses, page = 1, pageSize = 20 } = await request.json()
       await delay()
 
-      const errors: Record<string, string[]> = {}
-      if (page < 1) errors.Page = ['Page must be at least 1.']
-      if (pageSize < 1 || pageSize > 100) {
-        errors.PageSize = ['Page size must be between 1 and 100.']
-      }
+      const errors = pagingErrors(page, pageSize)
       if (Object.keys(errors).length) return validationProblem(errors)
 
       const mine = orders.filter((mock) => mock.order.userId === userId)
