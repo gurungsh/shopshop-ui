@@ -77,6 +77,6 @@ Folders appear as code is added. Import from `src` with the `@/` alias: `import 
 - [ ] **Customer orders**: Order history and detail: follow the status, cancel when allowed and retry a failed payment.
 - [ ] **Account profile**: See your email and role, and change your email or password.
 - [ ] **Admin orders**: Find any order, see who ordered what and move it through its statuses.
-- [ ] **Admin dashboard**: A landing page for admins with an at-a-glance view of orders.
+- [x] **Admin dashboard**: A landing page for admins with an at-a-glance view of orders.
 - [ ] **Admin catalog and users**: Manage products, categories and user accounts without Swagger.
 - [ ] **Hardening and release**: End-to-end tests, an accessibility pass and a container image, so the app is safe to demo and easy to run.

@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router'
+import { createBrowserRouter } from 'react-router'
 
 import { AdminLayout } from '@/app/layouts/AdminLayout'
 import { AuthLayout } from '@/app/layouts/AuthLayout'
@@ -15,7 +15,11 @@ import {
 } from '@/features/auth'
 import { cartRoutes, checkoutRoutes } from '@/features/cart'
 import { catalogRoutes } from '@/features/catalog'
-import { adminOrderRoutes, orderRoutes } from '@/features/orders'
+import {
+  adminDashboardRoutes,
+  adminOrderRoutes,
+  orderRoutes,
+} from '@/features/orders'
 
 export const router = createBrowserRouter([
   {
@@ -46,10 +50,7 @@ export const router = createBrowserRouter([
         path: 'admin',
         loader: requireAdmin,
         element: <AdminLayout />,
-        children: [
-          { index: true, element: <Navigate to="orders" replace /> },
-          ...adminOrderRoutes,
-        ],
+        children: [...adminDashboardRoutes, ...adminOrderRoutes],
       },
     ],
   },
