@@ -52,6 +52,20 @@ export const profileSchema = z
     path: ['confirmPassword'],
   })
 
+const role = z.enum(['Admin', 'Customer'], { error: 'Choose a role.' })
+
+export const adminCreateUserSchema = z.object({
+  email,
+  password: newPassword,
+  role,
+})
+
+// The edit form has no password field, so it accepts the empty default
+export const adminUpdateUserSchema = adminCreateUserSchema.extend({
+  password: z.string(),
+})
+
 export type LoginValues = z.infer<typeof loginSchema>
 export type RegisterValues = z.infer<typeof registerSchema>
 export type ProfileValues = z.infer<typeof profileSchema>
+export type AdminCreateUserValues = z.infer<typeof adminCreateUserSchema>

@@ -9,12 +9,13 @@ import { PlaceholderPage } from '@/app/routes/PlaceholderPage'
 import { RouteErrorPage } from '@/app/routes/RouteErrorPage'
 import {
   accountRoutes,
+  adminUserRoutes,
   authRoutes,
   requireAdmin,
   requireAuth,
 } from '@/features/auth'
 import { cartRoutes, checkoutRoutes } from '@/features/cart'
-import { catalogRoutes } from '@/features/catalog'
+import { adminCatalogRoutes, catalogRoutes } from '@/features/catalog'
 import {
   adminDashboardRoutes,
   adminOrderRoutes,
@@ -50,7 +51,12 @@ export const router = createBrowserRouter([
         path: 'admin',
         loader: requireAdmin,
         element: <AdminLayout />,
-        children: [...adminDashboardRoutes, ...adminOrderRoutes],
+        children: [
+          ...adminDashboardRoutes,
+          ...adminOrderRoutes,
+          ...adminCatalogRoutes,
+          ...adminUserRoutes,
+        ],
       },
     ],
   },

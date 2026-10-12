@@ -44,3 +44,28 @@ export interface CategoryQuery {
   page?: number
   pageSize?: number
 }
+
+/** AdminCreateProductRequest */
+export interface CreateProductRequest {
+  categoryId: string
+  name: string
+  description: string
+  sku: string
+  price: number
+}
+
+/** AdminUpdateProductRequest: send only what changed */
+export type UpdateProductRequest = Partial<CreateProductRequest> & {
+  isActive?: boolean
+}
+
+/** AdminCreateCategoryRequest */
+export interface CreateCategoryRequest {
+  name: string
+  description?: string
+}
+
+/** AdminUpdateCategoryRequest: send only what changed */
+export type UpdateCategoryRequest = Partial<CreateCategoryRequest> & {
+  isActive?: boolean
+}

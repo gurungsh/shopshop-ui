@@ -4,7 +4,7 @@ import { apiFetch } from '@/api/client'
 import type { Category, Product, ProductQuery } from '@/api/types/catalog'
 import type { Paged } from '@/api/types/paged'
 
-const catalogKeys = {
+export const catalogKeys = {
   all: ['catalog'] as const,
   products: () => [...catalogKeys.all, 'products'] as const,
   productList: (query: ProductQuery) =>

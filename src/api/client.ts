@@ -47,5 +47,6 @@ export async function apiFetch<T>(
 
   if (response.status === 401 && token) auth.onUnauthorized()
   if (!response.ok) throw await toApiError(response)
+  if (response.status === 204) return undefined as T
   return (await response.json()) as T
 }

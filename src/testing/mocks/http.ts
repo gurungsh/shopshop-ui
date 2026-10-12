@@ -3,6 +3,8 @@ import { HttpResponse } from 'msw'
 import type { Paged } from '@/api/types/paged'
 import { env } from '@/config/env'
 
+import { users } from './data/identity'
+
 /** The full gateway URL for an API path, as the app calls it */
 export function apiUrl(path: string): string {
   return `${env.VITE_API_BASE_URL}${path}`
@@ -51,4 +53,22 @@ export function userIdFrom(request: Request): string | null {
   } catch {
     return null
   }
+}
+
+/** The error response for a caller who is not an admin, or null for an admin */
+export function adminOnly(request: Request): Response | null {
+  const caller = users.find((u) => u.id === userIdFrom(request))
+  if (!caller) return new HttpResponse(null, { status: 401 })
+  if (caller.role !== 'Admin') return new HttpResponse(null, { status: 403 })
+  return null
+}
+
+/** The validators' paging rules (Page >= 1, PageSize 1 to 100), as ValidationProblem errors */
+export function pagingErrors(page = 1, pageSize = 20) {
+  const errors: Record<string, string[]> = {}
+  if (page < 1) errors.Page = ['Page must be at least 1.']
+  if (pageSize < 1 || pageSize > 100) {
+    errors.PageSize = ['Page size must be between 1 and 100.']
+  }
+  return errors
 }

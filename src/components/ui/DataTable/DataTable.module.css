@@ -1,0 +1,71 @@
+@layer components {
+  .scroller {
+    /* Contains the absolutely positioned sr-only header */
+    position: relative;
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .table {
+    width: 100%;
+    min-width: 680px;
+    border-collapse: collapse;
+    font-size: 15px;
+    transition: opacity 0.15s;
+
+    &[data-stale='true'] {
+      opacity: 0.6;
+    }
+
+    & :where(th, td) {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--color-border);
+      text-align: start;
+      white-space: nowrap;
+    }
+
+    & :where(th) {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    & :where(tbody tr:last-child td) {
+      border-bottom: 0;
+    }
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+
+  .muted {
+    color: var(--color-text-muted);
+  }
+
+  .end {
+    text-align: end;
+  }
+
+  .wrap {
+    max-width: 360px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .actions {
+    text-align: end;
+  }
+
+  .actionRow {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}

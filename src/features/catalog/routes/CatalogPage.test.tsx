@@ -62,6 +62,13 @@ describe('CatalogPage', () => {
     expect(await screen.findByText('3 products')).toBeInTheDocument()
   })
 
+  it('searches by name whatever the case', async () => {
+    renderRoute(<CatalogPage />, { url: '/?q=tent' })
+
+    expect(await screen.findByText('1 product')).toBeInTheDocument()
+    expect(screen.getByText('Two-person Tent')).toBeInTheDocument()
+  })
+
   it('clears every filter, including the price range', async () => {
     const { user, router } = renderRoute(<CatalogPage />, {
       url: '/?category=c0000000-0000-4000-8000-000000000003&min=40&max=100',
