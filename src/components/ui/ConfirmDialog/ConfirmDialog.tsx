@@ -1,5 +1,5 @@
 import { AlertDialog } from 'radix-ui'
-import type { ReactNode } from 'react'
+import { type ReactNode, useRef } from 'react'
 
 import { Button, type ButtonProps } from '../Button'
 import styles from './ConfirmDialog.module.css'
@@ -30,6 +30,9 @@ export function ConfirmDialog({
   pendingLabel = confirmLabel,
   variant = 'primary',
 }: ConfirmDialogProps) {
+  // The dialog has no trigger element, so Radix cannot return focus on close
+  const opener = useRef<HTMLElement | null>(null)
+
   return (
     <AlertDialog.Root
       open={open}
@@ -39,7 +42,19 @@ export function ConfirmDialog({
     >
       <AlertDialog.Portal>
         <AlertDialog.Overlay className={styles.overlay} />
-        <AlertDialog.Content className={styles.content}>
+        <AlertDialog.Content
+          className={styles.content}
+          onOpenAutoFocus={() => {
+            opener.current =
+              document.activeElement instanceof HTMLElement
+                ? document.activeElement
+                : null
+          }}
+          onCloseAutoFocus={(event) => {
+            event.preventDefault()
+            opener.current?.focus()
+          }}
+        >
           <AlertDialog.Title className={styles.title}>
             {title}
           </AlertDialog.Title>
