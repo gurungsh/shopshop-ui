@@ -1,4 +1,5 @@
 import { clsx } from 'clsx'
+import type { ReactNode } from 'react'
 
 import type { OrderDetail } from '@/api/types/ordering'
 import { formatMoney } from '@/lib/money'
@@ -10,7 +11,11 @@ interface CardProps {
   className?: string
 }
 
-export function OrderItemsCard({ order, className }: CardProps) {
+export function OrderItemsCard({
+  order,
+  className,
+  showNote = true,
+}: CardProps & { showNote?: boolean }) {
   return (
     <section
       aria-labelledby="items-heading"
@@ -36,15 +41,21 @@ export function OrderItemsCard({ order, className }: CardProps) {
         <span>Total</span>
         <span>{formatMoney(order.totalAmount)}</span>
       </div>
-      <p className={styles.muted}>
-        Prices are what you paid when you ordered, even if the catalog changes
-        later.
-      </p>
+      {showNote && (
+        <p className={styles.muted}>
+          Prices are what you paid when you ordered, even if the catalog changes
+          later.
+        </p>
+      )}
     </section>
   )
 }
 
-export function ShippingAddressCard({ order, className }: CardProps) {
+export function ShippingAddressCard({
+  order,
+  className,
+  action,
+}: CardProps & { action?: ReactNode }) {
   // The API stores the address as one string, a line per field (G14)
   const lines = order.shippingAddress.split(/\r?\n/).filter(Boolean)
 
@@ -53,9 +64,12 @@ export function ShippingAddressCard({ order, className }: CardProps) {
       aria-labelledby="shipping-heading"
       className={clsx(styles.card, className)}
     >
-      <h2 id="shipping-heading" className={styles.title}>
-        Shipping to
-      </h2>
+      <div className={styles.heading}>
+        <h2 id="shipping-heading" className={styles.title}>
+          Shipping to
+        </h2>
+        {action}
+      </div>
       <address className={styles.address}>
         {lines.map((line, index) => (
           <span key={index}>{line}</span>

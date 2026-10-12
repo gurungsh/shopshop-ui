@@ -48,3 +48,18 @@ export const trackerSteps: OrderStatus[] = [
 export function hasTracker(status: OrderStatus): boolean {
   return status === 'PaymentFailed' || trackerSteps.includes(status)
 }
+
+export const allStatuses = Object.keys(statusLabels) as OrderStatus[]
+
+/** The status "Mark as next" moves to. Nothing follows Delivered or the dead ends */
+export function nextStatus(status: OrderStatus): OrderStatus | undefined {
+  const index = trackerSteps.indexOf(status)
+  return index === -1 ? undefined : trackerSteps[index + 1]
+}
+
+/** Moves that end an order, or can't be undone from here, so ask first */
+export const askFirstStatuses: OrderStatus[] = [
+  'Cancelled',
+  'Refunded',
+  'Failed',
+]

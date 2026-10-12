@@ -24,3 +24,21 @@ export const orderRoutes: RouteObject[] = [
     },
   },
 ]
+
+/** Children of the /admin route, which already requires an admin */
+export const adminOrderRoutes: RouteObject[] = [
+  {
+    path: 'orders',
+    lazy: async () => {
+      const { AdminOrdersPage } = await import('./AdminOrdersPage')
+      return { Component: AdminOrdersPage }
+    },
+  },
+  {
+    path: 'orders/:id',
+    lazy: async () => {
+      const { AdminOrderDetailPage } = await import('./AdminOrderDetailPage')
+      return { Component: AdminOrderDetailPage }
+    },
+  },
+]

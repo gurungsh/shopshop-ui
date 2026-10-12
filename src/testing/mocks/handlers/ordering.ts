@@ -1,6 +1,8 @@
 import { delay, http, HttpResponse } from 'msw'
 
 import type {
+  AdminOrderQuery,
+  AdminUpdateOrderRequest,
   CreateOrderRequest,
   OrderDetail,
   OrderQuery,
@@ -10,6 +12,7 @@ import type {
 } from '@/api/types/ordering'
 
 import { products } from '../data/catalog'
+import { users } from '../data/identity'
 import {
   MAX_RETRIES,
   type MockOrder,
@@ -98,8 +101,117 @@ function paymentMethodErrors(paymentMethodId: string | undefined) {
   return []
 }
 
+const newestFirst = (a: MockOrder, b: MockOrder) =>
+  Date.parse(b.order.createdAtUtc) - Date.parse(a.order.createdAtUtc) ||
+  a.order.id.localeCompare(b.order.id)
+
+/** The 401 or 403 an admin endpoint answers with, or null for an admin */
+function adminDenied(request: Request) {
+  const caller = users.find((u) => u.id === userIdFrom(request))
+  if (!caller) return new HttpResponse(null, { status: 401 })
+  if (caller.role !== 'Admin') return new HttpResponse(null, { status: 403 })
+  return null
+}
+
+// ApplyGetOrdersFilters in OrderingService
+function matches({ order }: MockOrder, query: AdminOrderQuery) {
+  const created = Date.parse(order.createdAtUtc)
+  return (
+    (!query.ids?.length || query.ids.includes(order.id)) &&
+    (!query.userIds?.length || query.userIds.includes(order.userId)) &&
+    (!query.statuses?.length || query.statuses.includes(order.status)) &&
+    (query.minTotalAmount == null ||
+      order.totalAmount >= query.minTotalAmount) &&
+    (query.maxTotalAmount == null ||
+      order.totalAmount <= query.maxTotalAmount) &&
+    (!query.createdAfterUtc || created >= Date.parse(query.createdAfterUtc)) &&
+    (!query.createdBeforeUtc || created <= Date.parse(query.createdBeforeUtc))
+  )
+}
+
 // Mirrors Ordering.Api's OrderEndpoints, its validators and OrderingService
 export const orderingHandlers = [
+  http.get<{ id: string }>(
+    apiUrl('/api/admin/orders/:id'),
+    async ({ request, params }) => {
+      const denied = adminDenied(request)
+      if (denied) return denied
+
+      await delay()
+      const mock = orders.find((o) => o.order.id === params.id)
+      if (!mock) return errorResponse(404, 'Order not found.')
+
+      settlePayment(mock)
+      return HttpResponse.json(toResponse(mock))
+    },
+  ),
+
+  http.put<{ id: string }, AdminUpdateOrderRequest>(
+    apiUrl('/api/admin/orders/:id/status'),
+    async ({ request, params }) => {
+      const denied = adminDenied(request)
+      if (denied) return denied
+
+      const { status, shippingAddress } = await request.json()
+      await delay()
+
+      if (shippingAddress && shippingAddress.length > 500) {
+        return validationProblem({
+          ShippingAddress: ['Shipping address must not exceed 500 characters.'],
+        })
+      }
+
+      const mock = orders.find((o) => o.order.id === params.id)
+      if (!mock) return errorResponse(404, 'Order not found.')
+
+      settlePayment(mock)
+      if (status) mock.order.status = status
+      if (shippingAddress?.trim()) mock.order.shippingAddress = shippingAddress
+      mock.order.updatedAtUtc = new Date().toISOString()
+      saveOrders()
+
+      return HttpResponse.json(toResponse(mock))
+    },
+  ),
+
+  http.post<{ id: string }>(
+    apiUrl('/api/admin/orders/:id/cancel'),
+    async ({ request, params }) => {
+      const denied = adminDenied(request)
+      if (denied) return denied
+
+      await delay()
+      const mock = orders.find((o) => o.order.id === params.id)
+      if (!mock) return errorResponse(404, 'Order not found.')
+
+      mock.order.status = 'Cancelled'
+      mock.order.updatedAtUtc = new Date().toISOString()
+      saveOrders()
+
+      return HttpResponse.json(toResponse(mock))
+    },
+  ),
+
+  http.post<never, AdminOrderQuery>(
+    apiUrl('/api/admin/orders/search'),
+    async ({ request }) => {
+      const denied = adminDenied(request)
+      if (denied) return denied
+
+      const query = await request.json()
+      const { page = 1, pageSize = 20 } = query
+      await delay()
+
+      orders.forEach(settlePayment)
+      const matching = orders
+        .filter((mock) => matches(mock, query))
+        .sort(newestFirst)
+        .map(toSummary)
+
+      return HttpResponse.json(paginate(matching, page, pageSize))
+    },
+  ),
+
   http.post<never, Partial<CreateOrderRequest>>(
     apiUrl('/api/orders'),
     async ({ request }) => {
@@ -212,12 +324,7 @@ export const orderingHandlers = [
         .filter(
           (mock) => !statuses?.length || statuses.includes(mock.order.status),
         )
-        .sort(
-          (a, b) =>
-            Date.parse(b.order.createdAtUtc) -
-              Date.parse(a.order.createdAtUtc) ||
-            a.order.id.localeCompare(b.order.id),
-        )
+        .sort(newestFirst)
         .map(toSummary)
 
       return HttpResponse.json(paginate(matching, page, pageSize))
