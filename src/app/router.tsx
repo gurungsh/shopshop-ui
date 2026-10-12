@@ -5,7 +5,6 @@ import { AuthLayout } from '@/app/layouts/AuthLayout'
 import { StorefrontLayout } from '@/app/layouts/StorefrontLayout'
 import { AppLoading } from '@/app/routes/AppLoading'
 import { NotFoundPage } from '@/app/routes/NotFoundPage'
-import { PlaceholderPage } from '@/app/routes/PlaceholderPage'
 import { RouteErrorPage } from '@/app/routes/RouteErrorPage'
 import {
   accountRoutes,
@@ -34,15 +33,7 @@ export const router = createBrowserRouter([
           ...cartRoutes,
           {
             loader: requireAuth,
-            children: [
-              ...checkoutRoutes,
-              ...orderRoutes,
-              ...accountRoutes,
-              {
-                path: 'account/profile',
-                element: <PlaceholderPage title="Profile" chunk="F6" />,
-              },
-            ],
+            children: [...checkoutRoutes, ...orderRoutes, ...accountRoutes],
           },
         ],
       },

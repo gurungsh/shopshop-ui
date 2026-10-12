@@ -9,6 +9,7 @@ import { Banner } from '@/components/ui/Banner'
 import { Button } from '@/components/ui/Button'
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
 import { Skeleton } from '@/components/ui/Skeleton'
+import { formatDate } from '@/lib/date'
 
 import { useSetOrderStatus } from '../api/admin-mutations'
 import { adminOrderQuery } from '../api/admin-queries'
@@ -111,6 +112,9 @@ function Order({ order }: { order: OrderDetail }) {
             Order <span className={styles.number}>{number}</span>
           </h1>
           <div className={styles.meta}>
+            <span>Placed {formatDate(order.createdAtUtc)}</span>
+            <span aria-hidden="true">·</span>
+            <span>Updated {formatDate(order.updatedAtUtc)}</span>
             <OrderStatusBadge status={order.status} />
           </div>
         </div>
