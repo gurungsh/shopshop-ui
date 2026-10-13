@@ -14,7 +14,12 @@ import tseslint from 'typescript-eslint'
 const sharedLayers = ['components', 'stores', 'api', 'lib', 'config', 'styles']
 
 export default defineConfig([
-  globalIgnores(['dist', 'storybook-static']),
+  globalIgnores([
+    'dist',
+    'storybook-static',
+    'playwright-report',
+    'test-results',
+  ]),
 
   {
     files: ['**/*.{js,ts,tsx}'],
