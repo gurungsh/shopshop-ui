@@ -31,6 +31,8 @@ The app runs on http://localhost:5173.
 | `npm run format`          | Format every file with Prettier                      |
 | `npm test`                | Run the tests once (Vitest)                          |
 | `npm run test:watch`      | Run the tests in watch mode while you work           |
+| `npm run test:e2e`        | Run the end-to-end tests (Playwright, against MSW)   |
+| `npm run audit:prod`      | Fail on high-severity advisories in production deps  |
 | `npm run storybook`       | Browse the UI components and pages in Storybook      |
 | `npm run build-storybook` | Build a static Storybook into `storybook-static/`    |
 | `npm run format:check`    | Check formatting without changing files (used by CI) |
@@ -49,6 +51,30 @@ VITE_PAYMENT_TEST_METHODS=false
 ```
 
 Only the publishable key belongs in the front end. The secret key is set in the backend's Payment service. With the mock API, cards from the Stripe form always succeed; declines need a backend with the matching secret key, or the test picker.
+
+## End-to-end tests
+
+`e2e/` holds Playwright tests that drive the real app in Chromium against the MSW mock API: browse and filter, register, cart, checkout (success, and a decline followed by a retry), cancel an order and an admin status change. `accessibility.spec.ts` runs axe on every route and fails on serious or critical violations, and checks keyboard-only checkout and dialog focus. `responsive.spec.ts` checks every route for sideways scrolling at 375px and 768px.
+
+```bash
+npx playwright install chromium   # once
+npm run test:e2e
+```
+
+Playwright starts `npm run dev` itself with `VITE_API_MOCKING=true` and `VITE_PAYMENT_TEST_METHODS=true`, so a local Stripe key in `.env.development.local` does not change the run. The suite has not been run against the real backend: the gateway is not reachable from this machine.
+
+## Errors and reporting
+
+- `AppErrorBoundary` catches crashes above the router; the router's `errorElement` catches them inside a route.
+- A banner appears when the browser is offline, or when the gateway answers 503 or cannot be reached. Queries retry network failures, 503 and 429, waiting as long as `Retry-After` says, else backing off 1s, 2s, 4s.
+- `reportError` logs crashes and 5xx failures to the console with the gateway's `X-Correlation-Id`, and posts them to `VITE_ERROR_REPORT_URL` when it is set (any HTTP collector; no vendor SDK is bundled). Only the message, stack, status and ids are sent, never request bodies.
+
+## Security notes
+
+- The token lives in `sessionStorage` (see D2): it ends with the tab, but any script on the page could read it, which is why the build ships a Content Security Policy.
+- The CSP is added to `index.html` at build time only (`vite.config.ts`). It allows scripts from the app and `js.stripe.com`, frames from Stripe, and API calls to the gateway and Stripe. The build reads `VITE_API_BASE_URL` for the gateway origin, so set it when building. When serving behind a real web server, send the same policy as a header and add `frame-ancestors 'none'`, which a meta tag cannot do.
+- Card numbers never reach the app: Stripe Elements runs in Stripe's frame and the API only receives a `pm_...` id. No secret keys are read by the app and none are in the bundle (checked on the production build).
+- `npm run audit:prod` is clean. `npm audit` still reports advisories in dev-only tooling (`braces` through ESLint and Stylelint dependencies); they do not ship in the bundle.
 
 ## Project structure
 
@@ -79,4 +105,5 @@ Folders appear as code is added. Import from `src` with the `@/` alias: `import 
 - [x] **Admin orders**: Find any order, see who ordered what and move it through its statuses.
 - [x] **Admin dashboard**: A landing page for admins with an at-a-glance view of orders.
 - [x] **Admin catalog and users**: Manage products, categories and user accounts without Swagger.
-- [ ] **Hardening and release**: End-to-end tests, an accessibility pass and a container image, so the app is safe to demo and easy to run.
+- [x] **Hardening**: End-to-end, accessibility and responsive tests, error and offline states, a Content Security Policy and error reporting.
+- [ ] **Containerise**: A Dockerfile and a Docker Compose entry, so the app and backend start together.
