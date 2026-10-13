@@ -25,3 +25,7 @@ dist-ssr
 
 # Storybook
 storybook-static
+
+# Playwright
+test-results
+playwright-report

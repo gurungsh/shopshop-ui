@@ -1,6 +1,7 @@
 import { env } from '@/config/env'
 
 import { toApiError } from './errors'
+import { setServiceUnavailable } from './service-status'
 
 interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
@@ -43,8 +44,13 @@ export async function apiFetch<T>(
     headers,
     body: body === undefined ? undefined : JSON.stringify(body),
     signal,
+  }).catch((error: unknown) => {
+    // fetch rejects with a TypeError when the gateway cannot be reached
+    if (error instanceof TypeError) setServiceUnavailable(true)
+    throw error
   })
 
+  setServiceUnavailable(response.status === 503)
   if (response.status === 401 && token) auth.onUnauthorized()
   if (!response.ok) throw await toApiError(response)
   if (response.status === 204) return undefined as T

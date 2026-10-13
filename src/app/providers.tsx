@@ -3,10 +3,12 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { ReactNode } from 'react'
 
 import { queryClient } from '@/api/query-client'
+import { ConnectionBanner } from '@/app/ConnectionBanner'
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
+      <ConnectionBanner />
       {children}
       {/* Rendered only in development */}
       <ReactQueryDevtools buttonPosition="bottom-left" />

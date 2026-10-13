@@ -18,6 +18,8 @@
     "prepare": "husky",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "audit:prod": "npm audit --omit=dev --audit-level=high",
     "knip": "knip",
     "check": "npm run typecheck && npm run lint && npm run lint:css && npm run format:check && npm test",
     "storybook": "storybook dev -p 6006",
@@ -42,7 +44,9 @@
     "zustand": "5.0.15"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.64.0",
     "@storybook/addon-a11y": "10.6.1",
     "@storybook/react-vite": "10.6.1",
     "@tanstack/eslint-plugin-query": "5.104.1",
