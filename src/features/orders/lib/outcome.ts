@@ -6,7 +6,7 @@ export type Outcome =
   | 'confirmed'
   | 'paymentFailed'
   | 'failed'
-  | 'cancelled'
+  | 'canceled'
   | 'refunded'
 
 export function outcomeOf(status: OrderStatus, timedOut: boolean): Outcome {
@@ -18,7 +18,7 @@ export function outcomeOf(status: OrderStatus, timedOut: boolean): Outcome {
     case 'Failed':
       return 'failed'
     case 'Cancelled':
-      return 'cancelled'
+      return 'canceled'
     case 'Refunded':
       return 'refunded'
     default:

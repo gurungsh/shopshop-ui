@@ -40,7 +40,7 @@ describe('AdminOrderDetailPage', () => {
     ).toBeInTheDocument()
     expect(await screen.findByText('alex@example.com')).toBeInTheDocument()
     expect(screen.getByText(products[0]?.name ?? '')).toBeInTheDocument()
-    expect(screen.getByText('221 Harbour Street')).toBeInTheDocument()
+    expect(screen.getByText('221 Harbor Street')).toBeInTheDocument()
     expect(screen.getByText('Last updated')).toBeInTheDocument()
     expect(screen.getByText('Order placed')).toBeInTheDocument()
     expect(

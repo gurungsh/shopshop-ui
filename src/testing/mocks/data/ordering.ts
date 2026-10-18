@@ -64,7 +64,7 @@ function seed(
       totalAmount: items.reduce((sum, item) => sum + item.totalPrice, 0),
       status,
       shippingAddress:
-        'Alex Morgan\n221 Harbour Street\nPortland, OR 97201\nUnited States',
+        'Alex Morgan\n221 Harbor Street\nPortland, OR 97201\nUnited States',
       items,
       createdAtUtc: createdAt,
       updatedAtUtc: updated.toISOString(),

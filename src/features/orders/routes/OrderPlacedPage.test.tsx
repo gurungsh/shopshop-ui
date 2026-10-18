@@ -127,7 +127,7 @@ describe('OrderPlacedPage', () => {
       await heading('We couldn’t take payment for this order'),
     ).toBeInTheDocument()
     expect(screen.getByText('#E0000003')).toBeInTheDocument()
-    expect(screen.getByText(/221 Harbour Street/)).toBeInTheDocument()
+    expect(screen.getByText(/221 Harbor Street/)).toBeInTheDocument()
   })
 
   it('lists products that were left out of the order', async () => {

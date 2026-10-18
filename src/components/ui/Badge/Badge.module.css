@@ -18,9 +18,9 @@
     }
 
     &[data-tone='neutral'] {
-      --badge-bg: var(--status-cancelled-bg);
-      --badge-text: var(--status-cancelled-text);
-      --badge-dot: var(--status-cancelled-dot);
+      --badge-bg: var(--status-canceled-bg);
+      --badge-text: var(--status-canceled-text);
+      --badge-dot: var(--status-canceled-dot);
     }
 
     &[data-tone='info'] {

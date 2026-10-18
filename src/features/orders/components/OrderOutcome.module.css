@@ -37,7 +37,7 @@
       color: var(--color-danger-text);
     }
 
-    &[data-outcome='cancelled'],
+    &[data-outcome='canceled'],
     &[data-outcome='refunded'] {
       background: var(--color-bg-subtle);
       color: var(--color-text-muted);

@@ -46,7 +46,7 @@ describe('OrderDetailPage', () => {
       within(progress).getByText('Processing').closest('li'),
     ).toHaveAttribute('aria-current', 'step')
     expect(screen.getByText('Pour-over Coffee Set')).toBeInTheDocument()
-    expect(screen.getByText('221 Harbour Street')).toBeInTheDocument()
+    expect(screen.getByText('221 Harbor Street')).toBeInTheDocument()
     expect(screen.getByText('Portland, OR 97201')).toBeInTheDocument()
     expect(cancelButton()).toBeInTheDocument()
   })
