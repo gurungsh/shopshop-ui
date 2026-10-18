@@ -59,8 +59,8 @@
   .ended {
     padding: 16px;
     border-radius: var(--radius-md);
-    background: var(--status-cancelled-bg);
-    color: var(--status-cancelled-text);
+    background: var(--status-canceled-bg);
+    color: var(--status-canceled-text);
     font-size: 15px;
     line-height: 1.5;
 

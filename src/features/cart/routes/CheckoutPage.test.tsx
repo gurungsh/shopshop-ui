@@ -51,7 +51,7 @@ type User = ReturnType<typeof renderCheckout>['user']
 
 async function fillAddress(user: User) {
   await user.type(await screen.findByLabelText('Full name'), 'Alex Morgan')
-  await user.type(screen.getByLabelText('Street address'), '221 Harbour St')
+  await user.type(screen.getByLabelText('Street address'), '221 Harbor St')
   await user.type(screen.getByLabelText('City'), 'Portland')
   await user.type(screen.getByLabelText('State / region'), 'OR')
   await user.type(screen.getByLabelText('Postal code'), '97201')
@@ -103,7 +103,7 @@ describe('CheckoutPage', () => {
     expect(bodies).toEqual([
       {
         shippingAddress:
-          'Alex Morgan\n221 Harbour St\nApt 4\nPortland, OR 97201\nCanada',
+          'Alex Morgan\n221 Harbor St\nApt 4\nPortland, OR 97201\nCanada',
         items: [{ productId: headphonesId, quantity: 2 }],
         paymentMethodId: 'pm_card_chargeDeclined',
       },

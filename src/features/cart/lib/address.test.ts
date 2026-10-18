@@ -10,7 +10,7 @@ import {
 
 const address = {
   fullName: ' Alex Morgan ',
-  line1: '221 Harbour Street',
+  line1: '221 Harbor Street',
   line2: '',
   city: 'Portland',
   region: 'OR',
@@ -23,7 +23,7 @@ describe('addressSchema', () => {
     const parsed = addressSchema.parse(address)
 
     expect(joinAddress(parsed)).toBe(
-      'Alex Morgan\n221 Harbour Street\nPortland, OR 97201\nUnited States',
+      'Alex Morgan\n221 Harbor Street\nPortland, OR 97201\nUnited States',
     )
   })
 

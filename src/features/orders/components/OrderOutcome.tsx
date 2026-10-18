@@ -33,7 +33,7 @@ const copy: Record<Outcome, { title: string; lede: string }> = {
     title: 'We couldn’t take payment for this order',
     lede: 'Every payment attempt failed, so the order was closed.',
   },
-  cancelled: {
+  canceled: {
     title: 'This order was canceled',
     lede: 'It won’t be charged or shipped.',
   },
@@ -49,7 +49,7 @@ const icons: Record<Outcome, typeof Check> = {
   confirmed: Check,
   paymentFailed: TriangleAlert,
   failed: TriangleAlert,
-  cancelled: X,
+  canceled: X,
   refunded: X,
 }
 

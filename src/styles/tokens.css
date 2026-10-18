@@ -51,9 +51,9 @@
   --status-delivered-bg: #e2f2e7;
   --status-delivered-text: #14532d;
   --status-delivered-dot: #2f8a4f;
-  --status-cancelled-bg: #eeeeea;
-  --status-cancelled-text: #3e434b;
-  --status-cancelled-dot: #7a7f88;
+  --status-canceled-bg: #eeeeea;
+  --status-canceled-text: #3e434b;
+  --status-canceled-dot: #7a7f88;
   --status-refunded-bg: #f2e9fa;
   --status-refunded-text: #5b2384;
   --status-refunded-dot: #9157c2;
